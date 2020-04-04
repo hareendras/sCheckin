@@ -1,9 +1,9 @@
 import React from "react";
 import { Form, Input, FormField } from "semantic-ui-react";
 
-const LoginForm = ({ onChange }) => {
+const LoginForm = ({ onChange, onSubmit }) => {
   return (
-    <Form>
+    <Form onSubmit={onSubmit}>
       <Form.Field>
         <Input
           fluid

@@ -17,8 +17,12 @@ const App = () => {
   const [code, setCode] = useState();
 
   const HandleChange = value => {
-    console.log(value);
     setCode(value);
+  };
+
+  const HandleSubmit = () => {
+    console.log("submit" + code);
+    //handle submit
   };
 
   return (
@@ -34,7 +38,7 @@ const App = () => {
           sub="Please enter four digit number displayed in white board to continue"
         />
         <br></br>
-        <LoginForm onChange={HandleChange} />
+        <LoginForm onChange={HandleChange} onSubmit={HandleSubmit} />
       </Segment>
     </Container>
   );
