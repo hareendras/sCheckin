@@ -12,15 +12,20 @@ import "semantic-ui-css/semantic.min.css";
 import LoginForm from "./pages/LoginForm";
 
 const App = () => {
-  const [code, setCode] = useState();
-  const [error, setError] = useState();
+  const [code, setCode] = useState("");
+  const [error, setError] = useState("");
 
   const HandleChange = value => {
     setCode(value);
   };
 
   const HandleSubmit = () => {
-    console.log("submit" + code);
+    if (code === "") {
+      setError("Can't be blank!!");
+      return;
+    }
+    setError("");
+    console.log("Submit " + code);
   };
 
   return (
