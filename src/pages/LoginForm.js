@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, Message } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 
-const LoginForm = ({ onChange, onSubmit }) => {
+const LoginForm = ({ onChange, onSubmit, error }) => {
   return (
     <div>
       <MessageHeading
@@ -11,6 +11,7 @@ const LoginForm = ({ onChange, onSubmit }) => {
       />
       <br></br>
       <Form onSubmit={onSubmit}>
+         {error && <span style={{color:"red"}}>{error}</span>}
         <Form.Field>
           <Input
             fluid

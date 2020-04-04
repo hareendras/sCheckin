@@ -13,6 +13,7 @@ import LoginForm from "./pages/LoginForm";
 
 const App = () => {
   const [code, setCode] = useState();
+  const [error, setError] = useState();
 
   const HandleChange = value => {
     setCode(value);
@@ -20,7 +21,6 @@ const App = () => {
 
   const HandleSubmit = () => {
     console.log("submit" + code);
-    //handle submit
   };
 
   return (
@@ -30,7 +30,11 @@ const App = () => {
         <Header as="h1" textAlign="center">
           Harry Inn self-checkin portal
         </Header>
-        <LoginForm onChange={HandleChange} onSubmit={HandleSubmit} />
+        <LoginForm
+          error={error}
+          onChange={HandleChange}
+          onSubmit={HandleSubmit}
+        />
       </Segment>
     </Container>
   );
