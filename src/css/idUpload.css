@@ -1,0 +1,4 @@
+  /* This is the part that actually hides the 'Choose file' text box for camera inputs */
+ .cameraButton input[accept*="camera"] {
+    display: none;
+  }

@@ -10,6 +10,8 @@ import {
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import LoginForm from "./pages/LoginForm";
+import UserListForm from "./pages/UserListForm";
+import IdUpload from "./pages/IdUpload";
 
 const App = () => {
   const [code, setCode] = useState("");
@@ -35,28 +37,17 @@ const App = () => {
         <Header as="h1" textAlign="center">
           Harry Inn self-checkin portal
         </Header>
-        <LoginForm
+        {/*  <LoginForm
           error={error}
           onChange={HandleChange}
           onSubmit={HandleSubmit}
-        />
+      /> */}
+        {/*  <UserListForm/> */}
+        <IdUpload />
       </Segment>
     </Container>
   );
 };
-
-const Nav = () => (
-  <div>
-    <Breadcrumb size="large">
-      <Breadcrumb.Section link>Home</Breadcrumb.Section>
-      <Breadcrumb.Divider />
-      <Breadcrumb.Section link>Store</Breadcrumb.Section>
-      <Breadcrumb.Divider />
-      <Breadcrumb.Section active>T-Shirt</Breadcrumb.Section>
-    </Breadcrumb>{" "}
-    <br />
-  </div>
-);
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
