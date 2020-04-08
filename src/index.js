@@ -12,6 +12,7 @@ import "semantic-ui-css/semantic.min.css";
 import LoginForm from "./pages/LoginForm";
 import UserListForm from "./pages/UserListForm";
 import IdUpload from "./pages/IdUpload";
+import Confirmation from "./pages/Confirmation";
 
 const App = () => {
   const [code, setCode] = useState("");
@@ -43,7 +44,8 @@ const App = () => {
           onSubmit={HandleSubmit}
       /> */}
         {/*  <UserListForm/> */}
-        <IdUpload />
+       {/* <IdUpload /> */}
+        <Confirmation/>
       </Segment>
     </Container>
   );

@@ -8,7 +8,7 @@ const IdUpload = ({ onChange, onSubmit, error }) => {
   return (
     <div>
       <MessageHeading
-        main="Please upload your ID/Passport"
+        main="Hello Hareendra! Please upload your ID/Passport"
         sub="Tap on camera icon to launch camera"
       />
       <br />
