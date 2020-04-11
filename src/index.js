@@ -62,7 +62,6 @@ const App = () => {
       );
       //console.log("new case" + Object.values(result.data)[2].global_new_cases);
       setFetchedCode("1234");
-      console.log("code fetched" + codeFetched);
     };
     f();
   }, []);
