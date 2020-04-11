@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import axios from "axios";
 import {
   Divider,
   Container,
@@ -13,10 +14,12 @@ import LoginForm from "./pages/LoginForm";
 import UserListForm from "./pages/UserListForm";
 import IdUpload from "./pages/IdUpload";
 import Confirmation from "./pages/Confirmation";
+import { resolve, async } from "q";
 
 const App = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
+  const [currentPage, setCurrentPage] = useState("login");
 
   const HandleChange = value => {
     setCode(value);
@@ -31,6 +34,30 @@ const App = () => {
     console.log("Submit " + code);
   };
 
+  const renderUI = () => {
+    console.log(currentPage);
+    switch (currentPage) {
+      case "login":
+        return (
+          <LoginForm
+            error={error}
+            onChange={HandleChange}
+            onSubmit={HandleSubmit}
+          />
+        );
+    }
+  };
+
+  useEffect(() => {
+    console.log("effect");
+    const f = async () => {
+      let result = await  axios.get("https://www.hpb.health.gov.lk/api/get-current-statistical")
+      console.log("new case"+Object.values(result.data)[2].global_new_cases);
+       
+    };
+    f();
+  }, []);
+
   return (
     <Container>
       <Divider />
@@ -38,14 +65,11 @@ const App = () => {
         <Header as="h1" textAlign="center">
           Harry Inn self-checkin portal
         </Header>
-        {/*  <LoginForm
-          error={error}
-          onChange={HandleChange}
-          onSubmit={HandleSubmit}
-      /> */}
+        {renderUI()}
+
         {/*  <UserListForm/> */}
-       {/* <IdUpload /> */}
-        <Confirmation/>
+        {/* <IdUpload /> */}
+        {/*<Confirmation />*/}
       </Segment>
     </Container>
   );

@@ -11,7 +11,7 @@ const LoginForm = ({ onChange, onSubmit, error }) => {
       />
       <br></br>
       <Form onSubmit={onSubmit}>
-         {error && <span style={{color:"red"}}>{error}</span>}
+        {error && <span style={{ color: "red" }}>{error}</span>}
         <Form.Field>
           <Input
             fluid
