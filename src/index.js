@@ -38,6 +38,10 @@ const App = () => {
     }
   };
 
+  const userOnClick = user => {
+    setCurrentPage("IdUpload");
+  };
+
   const renderUI = () => {
     console.log("render Ui" + currentPage);
     switch (currentPage) {
@@ -50,7 +54,9 @@ const App = () => {
           />
         );
       case "home":
-        return <UserListForm />;
+        return <UserListForm userOnClick={userOnClick} />;
+      case "IdUpload":
+        return <IdUpload />;
     }
   };
 

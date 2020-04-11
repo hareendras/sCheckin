@@ -4,7 +4,7 @@ import MessageHeading from "../../src/components/MessageHeading";
 import Nav from "../../src/components/Nav";
 import axios from "axios";
 
-const UserListForm = ({ onChange, onSubmit, error }) => {
+const UserListForm = ({ userOnClick, error }) => {
   useEffect(() => {
     console.log("effect");
     const f = async () => {
@@ -26,7 +26,12 @@ const UserListForm = ({ onChange, onSubmit, error }) => {
       <Nav />
       <br />
       <Card.Group>
-        <Card fluid color="red" header="Hareendra Seneviratne" />
+        <Card
+          fluid
+          color="red"
+          header="Hareendra Seneviratne"
+          onClick={() => userOnClick("red")}
+        />
         <Card fluid color="orange" header="John Smith" />
         <Card fluid color="yellow" header="Adrean" />
         <Card fluid color="yellow" header="Pulla" />

@@ -20,11 +20,7 @@ const IdUpload = ({ onChange, onSubmit, error }) => {
           <input type="file" accept="image/*;capture=camera" />
         </label>
 
-        <div>
-          Preview should go here
-        </div>
-
-
+        <div>Preview should go here</div>
       </div>
     </div>
   );

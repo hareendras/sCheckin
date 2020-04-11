@@ -1,5 +1,5 @@
 import React from "react";
-import { Form,Button } from "semantic-ui-react";
+import { Form, Button } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 import Nav from "../../src/components/Nav";
 import styles from "../css/IdUpload.css";
@@ -22,11 +22,11 @@ const Confirmation = ({ onChange, onSubmit, error }) => {
           </Form.Field>
           <Form.Field>
             <label>No of nights</label>
-            <input placeholder="Last Name" disabled value="2"/>
+            <input placeholder="Last Name" disabled value="2" />
           </Form.Field>
           <Form.Field>
             <label>Amount Payable USD</label>
-            <input placeholder="Last Name" disabled value="7"/>
+            <input placeholder="Last Name" disabled value="7" />
           </Form.Field>
 
           <Button type="submit">Check Inn</Button>
