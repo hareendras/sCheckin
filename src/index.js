@@ -20,6 +20,7 @@ const App = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState("login");
+  const [fetchedCode, setFetchedCode] = useState();
 
   const HandleChange = value => {
     setCode(value);
@@ -30,12 +31,15 @@ const App = () => {
       setError("Can't be blank!!");
       return;
     }
-    setError("");
-    console.log("Submit " + code);
+    if (fetchedCode === code) {
+      setCurrentPage("home");
+    } else {
+      setError("Wrong code. Try again");
+    }
   };
 
   const renderUI = () => {
-    console.log(currentPage);
+    console.log("render Ui" + currentPage);
     switch (currentPage) {
       case "login":
         return (
@@ -45,15 +49,20 @@ const App = () => {
             onSubmit={HandleSubmit}
           />
         );
+      case "home":
+        return <UserListForm />;
     }
   };
 
   useEffect(() => {
     console.log("effect");
     const f = async () => {
-      let result = await  axios.get("https://www.hpb.health.gov.lk/api/get-current-statistical")
-      console.log("new case"+Object.values(result.data)[2].global_new_cases);
-       
+      let result = await axios.get(
+        "https://www.hpb.health.gov.lk/api/get-current-statistical"
+      );
+      //console.log("new case" + Object.values(result.data)[2].global_new_cases);
+      setFetchedCode("1234");
+      console.log("code fetched" + codeFetched);
     };
     f();
   }, []);
