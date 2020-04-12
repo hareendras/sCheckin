@@ -1,10 +1,9 @@
 import React from "react";
-import { Icon } from "semantic-ui-react";
+import { Icon, Form, Button } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
-import Nav from "../../src/components/Nav";
 import styles from "../css/IdUpload.css";
 
-const IdUpload = ({ onChange, onSubmit, error }) => {
+const IdUpload = ({ onclickBack,onSubmit, error }) => {
   return (
     <div>
       <MessageHeading
@@ -12,16 +11,26 @@ const IdUpload = ({ onChange, onSubmit, error }) => {
         sub="Tap on camera icon to launch camera"
       />
       <br />
-      <Nav />
+
       <br />
-      <div>
-        <label className="  button cameraButton">
-          <Icon name="camera" size="massive" />
+
+      <Form onSubmit={onSubmit}>
+        {error && <span style={{ color: "red" }}>{error}</span>}
+
+        <label className="  button cameraButton ">
+          <div className="flexContainer">
+            <Icon name="camera" size="massive" />
+          </div>
           <input type="file" accept="image/*;capture=camera" />
         </label>
+        <br />
+        <br />
 
-        <div>Preview should go here</div>
-      </div>
+        <div className="btnFlexContainer">
+          <Button content="<<Back" onClick={onclickBack}/>
+          <Button content="Continue" />
+        </div>
+      </Form>
     </div>
   );
 };

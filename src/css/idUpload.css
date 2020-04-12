@@ -2,3 +2,12 @@
  .cameraButton input[accept*="camera"] {
     display: none;
   }
+
+  .flexContainer {
+    display: flex;
+    justify-content: center;
+  }
+  .btnFlexContainer {
+    display: flex;
+    justify-content: space-between;
+  }

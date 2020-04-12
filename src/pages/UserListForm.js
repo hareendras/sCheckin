@@ -23,7 +23,7 @@ const UserListForm = ({ userOnClick, error }) => {
     <div>
       <MessageHeading main="Please tap on your name to begin" />
       <br />
-      <Nav />
+     
       <br />
       <Card.Group>
         <Card

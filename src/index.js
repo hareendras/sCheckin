@@ -42,6 +42,13 @@ const App = () => {
     setCurrentPage("IdUpload");
   };
 
+  // idUpload
+  const onclickBack = ()=>{
+    setCurrentPage("home");
+  };
+
+  /////////
+
   const renderUI = () => {
     console.log("render Ui" + currentPage);
     switch (currentPage) {
@@ -56,7 +63,7 @@ const App = () => {
       case "home":
         return <UserListForm userOnClick={userOnClick} />;
       case "IdUpload":
-        return <IdUpload />;
+        return <IdUpload onclickBack={onclickBack}/>;
     }
   };
 
@@ -82,7 +89,7 @@ const App = () => {
         {renderUI()}
 
         {/*  <UserListForm/> */}
-        {/* <IdUpload /> */}
+        {/* <IdUpload />  */}
         {/*<Confirmation />*/}
       </Segment>
     </Container>
