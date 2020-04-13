@@ -1,13 +1,18 @@
-  /* This is the part that actually hides the 'Choose file' text box for camera inputs */
- .cameraButton input[accept*="camera"] {
-    display: none;
-  }
+/* This is the part that actually hides the 'Choose file' text box for camera inputs */
+.cameraButton input[accept*="camera"] {
+  display: none;
+}
 
-  .flexContainer {
-    display: flex;
-    justify-content: center;
-  }
-  .btnFlexContainer {
-    display: flex;
-    justify-content: space-between;
-  }
+.flexContainer {
+  display: flex;
+  justify-content: center;
+}
+.btnFlexContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.resImage {
+  height: auto;
+  width: 100%;
+}

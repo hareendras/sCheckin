@@ -4,6 +4,7 @@ import MessageHeading from "../../src/components/MessageHeading";
 import styles from "../css/IdUpload.css";
 
 const IdUpload = ({ onclickBack, onSubmit, error }) => {
+
   const [imgURL, setImgURL] = useState();
 
   const handleImgUpd = async event => {
@@ -47,7 +48,7 @@ const IdUpload = ({ onclickBack, onSubmit, error }) => {
           </label>
         )}
 
-        {imgURL && <img src={imgURL} />}
+        {imgURL && <img className="resImage" src={imgURL} />}
         <br />
         <br />
 
