@@ -14,14 +14,14 @@ import LoginForm from "./pages/LoginForm";
 import UserListForm from "./pages/UserListForm";
 import IdUpload from "./pages/IdUpload";
 import Confirmation from "./pages/Confirmation";
-import { resolve, async } from "q";
+
 
 const App = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState("login");
   const [fetchedCode, setFetchedCode] = useState();
-
+//LoginForm
   const HandleChange = value => {
     setCode(value);
   };
@@ -36,11 +36,15 @@ const App = () => {
     } else {
       setError("Wrong code. Try again");
     }
-  };
+  };////////////
 
+  
+
+  //UserListForm 
   const userOnClick = user => {
     setCurrentPage("IdUpload");
-  };
+  };///////////
+
 
   // idUpload
   const onclickBack = ()=>{
