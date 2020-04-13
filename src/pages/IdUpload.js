@@ -3,8 +3,7 @@ import { Icon, Form, Button } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 import styles from "../css/IdUpload.css";
 
-const IdUpload = ({ onclickBack, onSubmit, error }) => {
-
+const IdUpload = ({ onclickBack, onclickContinue, onSubmit, error }) => {
   const [imgURL, setImgURL] = useState();
 
   const handleImgUpd = async event => {
@@ -54,7 +53,7 @@ const IdUpload = ({ onclickBack, onSubmit, error }) => {
 
         <div className="btnFlexContainer">
           <Button content="<<Back" onClick={onclickBack} />
-          <Button content="Continue" />
+          <Button content="Continue" onClick={onclickContinue} />
         </div>
       </Form>
     </div>

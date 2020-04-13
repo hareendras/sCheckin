@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Button } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 import Nav from "../../src/components/Nav";
-import styles from "../css/IdUpload.css";
+
 
 const Confirmation = ({ onChange, onSubmit, error }) => {
   return (

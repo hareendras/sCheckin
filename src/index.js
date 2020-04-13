@@ -15,17 +15,16 @@ import UserListForm from "./pages/UserListForm";
 import IdUpload from "./pages/IdUpload";
 import Confirmation from "./pages/Confirmation";
 
-
 const App = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState("login");
   const [fetchedCode, setFetchedCode] = useState();
-//LoginForm
+
+  //LoginForm
   const HandleChange = value => {
     setCode(value);
   };
-
   const HandleSubmit = () => {
     if (code === "") {
       setError("Can't be blank!!");
@@ -36,19 +35,20 @@ const App = () => {
     } else {
       setError("Wrong code. Try again");
     }
-  };////////////
+  }; ////////////
 
-  
-
-  //UserListForm 
+  //UserListForm
   const userOnClick = user => {
     setCurrentPage("IdUpload");
-  };///////////
-
+  }; ///////////
 
   // idUpload
-  const onclickBack = ()=>{
+  const onclickBack = () => {
     setCurrentPage("home");
+  };
+
+  const onclickContinue = () => {
+    setCurrentPage("confirmation");
   };
 
   /////////
@@ -67,7 +67,14 @@ const App = () => {
       case "home":
         return <UserListForm userOnClick={userOnClick} />;
       case "IdUpload":
-        return <IdUpload onclickBack={onclickBack}/>;
+        return (
+          <IdUpload
+            onclickBack={onclickBack}
+            onclickContinue={onclickContinue}
+          />
+        );
+      case "confirmation":
+        return <Confirmation />;
     }
   };
 
