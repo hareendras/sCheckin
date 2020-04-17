@@ -14,17 +14,17 @@ import LoginForm from "./pages/LoginForm";
 import UserListForm from "./pages/UserListForm";
 import IdUpload from "./pages/IdUpload";
 import Confirmation from "./pages/Confirmation";
-import { SSL_OP_SINGLE_DH_USE } from "constants";
 
 const App = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState("login");
   const [fetchedCode, setFetchedCode] = useState();
-  const [property, setProperty] = useState();
-  const [admin, setAdmin] = useState(false);
+  const [propertyID, setPropertyID] = useState();
+  const [propertyName, setPropertyName] = useState();
+  const [admin, setAdmin] = useState();
 
-  //LoginForm
+  //LoginForm -- Guest
   const HandleChange = value => {
     setCode(value);
   };
@@ -40,12 +40,12 @@ const App = () => {
     }
   }; ////////////
 
-  //UserListForm
+  //UserListForm -- Guest
   const userOnClick = user => {
     setCurrentPage("IdUpload");
   }; ///////////
 
-  // idUpload
+  // idUpload -- Guest
   const onclickBack = () => {
     setCurrentPage("home");
   };
@@ -84,10 +84,10 @@ const App = () => {
   useEffect(() => {
     console.log("effect");
     let sp = new URLSearchParams(window.location.search);
-    let admin = sp.get("admin");
-    let property = sp.get("property");
+    let propertyID = sp.get("propertyID");
 
-    console.log(admin, property);
+    setAdmin(sp.get("admin"));
+    console.log(admin, propertyID);
 
     if (!admin) {
       const f = async () => {
@@ -101,18 +101,20 @@ const App = () => {
         // Fetch property name
 
         setFetchedCode("1234");
-        setProperty("Harry Inn");
+        setPropertyName("Harry Inn");
       };
       f();
     }
   }, [admin]);
 
-  return !admin ? (
+  return admin ? (
+    <div>TODO admin app</div>
+  ) : (
     <Container>
       <Divider />
       <Segment size="massive">
         <Header as="h1" textAlign="center">
-          {property} self-checkin portal
+          {propertyID} self-checkin portal
         </Header>
         {renderUI()}
 
@@ -121,8 +123,6 @@ const App = () => {
         {/*<Confirmation />*/}
       </Segment>
     </Container>
-  ) : (
-    <div>sdsdsd</div>
   );
 };
 
