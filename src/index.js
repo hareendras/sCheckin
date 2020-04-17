@@ -14,12 +14,15 @@ import LoginForm from "./pages/LoginForm";
 import UserListForm from "./pages/UserListForm";
 import IdUpload from "./pages/IdUpload";
 import Confirmation from "./pages/Confirmation";
+import { SSL_OP_SINGLE_DH_USE } from "constants";
 
 const App = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState("login");
   const [fetchedCode, setFetchedCode] = useState();
+  const [property, setProperty] = useState();
+  const [admin, setAdmin] = useState(false);
 
   //LoginForm
   const HandleChange = value => {
@@ -80,22 +83,36 @@ const App = () => {
 
   useEffect(() => {
     console.log("effect");
-    const f = async () => {
-      let result = await axios.get(
-        "https://www.hpb.health.gov.lk/api/get-current-statistical"
-      );
-      //console.log("new case" + Object.values(result.data)[2].global_new_cases);
-      setFetchedCode("1234");
-    };
-    f();
-  }, []);
+    let sp = new URLSearchParams(window.location.search);
+    let admin = sp.get("admin");
+    let property = sp.get("property");
 
-  return (
+    console.log(admin, property);
+
+    if (!admin) {
+      const f = async () => {
+        // let result = await axios.get(
+        //   "https://www.hpb.health.gov.lk/api/get-current-statistical"
+        // );
+        //console.log("new case" + Object.values(result.data)[2].global_new_cases);
+
+        // TODO
+        // Fetch four digint code
+        // Fetch property name
+
+        setFetchedCode("1234");
+        setProperty("Harry Inn");
+      };
+      f();
+    }
+  }, [admin]);
+
+  return !admin ? (
     <Container>
       <Divider />
       <Segment size="massive">
         <Header as="h1" textAlign="center">
-          Harry Inn self-checkin portal
+          {property} self-checkin portal
         </Header>
         {renderUI()}
 
@@ -104,6 +121,8 @@ const App = () => {
         {/*<Confirmation />*/}
       </Segment>
     </Container>
+  ) : (
+    <div>sdsdsd</div>
   );
 };
 
