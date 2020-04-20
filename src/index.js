@@ -7,25 +7,28 @@ import {
   Header,
   Message,
   Segment,
-  Breadcrumb
+  Breadcrumb,
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import LoginForm from "./pages/LoginForm";
 import UserListForm from "./pages/UserListForm";
 import IdUpload from "./pages/IdUpload";
 import Confirmation from "./pages/Confirmation";
+import Firebase from "./firebase";
+import "firebase/firestore";
 
 const App = () => {
-  const [code, setCode] = useState("");
+  let db = Firebase.firestore();
+
+  const [code, setCode] = useState();
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState("login");
   const [fetchedCode, setFetchedCode] = useState();
-  const [propertyID, setPropertyID] = useState();
   const [propertyName, setPropertyName] = useState();
   const [admin, setAdmin] = useState();
 
   //LoginForm -- Guest
-  const HandleChange = value => {
+  const HandleChange = (value) => {
     setCode(value);
   };
   const HandleSubmit = () => {
@@ -33,7 +36,8 @@ const App = () => {
       setError("Can't be blank!!");
       return;
     }
-    if (fetchedCode === code) {
+    console.log("fetchedCode " + fetchedCode + " code " + code);
+    if (fetchedCode == code) {
       setCurrentPage("home");
     } else {
       setError("Wrong code. Try again");
@@ -41,7 +45,7 @@ const App = () => {
   }; ////////////
 
   //UserListForm -- Guest
-  const userOnClick = user => {
+  const userOnClick = (user) => {
     setCurrentPage("IdUpload");
   }; ///////////
 
@@ -85,36 +89,35 @@ const App = () => {
     console.log("effect");
     let sp = new URLSearchParams(window.location.search);
     let propertyID = sp.get("propertyID");
-
     setAdmin(sp.get("admin"));
     console.log(admin, propertyID);
 
-    if (!admin) {
+    if (admin === "false") {
       const f = async () => {
-        // let result = await axios.get(
-        //   "https://www.hpb.health.gov.lk/api/get-current-statistical"
-        // );
-        //console.log("new case" + Object.values(result.data)[2].global_new_cases);
-
         // TODO
         // Fetch four digint code
         // Fetch property name
+        const snapshot = await db.collection("Property").doc(propertyID).get();
+        const data = snapshot.data();
 
-        setFetchedCode("1234");
-        setPropertyName("Harry Inn");
+        console.log("NAME " + data.name);
+        console.log("CODE " + data.code);
+
+        setFetchedCode(data.code);
+        setPropertyName(data.name);
       };
       f();
     }
   }, [admin]);
 
-  return admin ? (
+  return admin === "true" ? (
     <div>TODO admin app</div>
   ) : (
     <Container>
       <Divider />
       <Segment size="massive">
         <Header as="h1" textAlign="center">
-          {propertyID} self-checkin portal
+          {propertyName} self-checkin portal
         </Header>
         {renderUI()}
 
