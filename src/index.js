@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import axios from "axios";
 import {
   Divider,
   Container,
@@ -25,6 +24,7 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState("login");
   const [fetchedCode, setFetchedCode] = useState();
   const [propertyName, setPropertyName] = useState();
+  const [propertyID, setPropertyID] = useState();
   const [admin, setAdmin] = useState();
 
   //LoginForm -- Guest
@@ -72,7 +72,9 @@ const App = () => {
           />
         );
       case "home":
-        return <UserListForm userOnClick={userOnClick} />;
+        return (
+          <UserListForm userOnClick={userOnClick} propertyID={propertyID} />
+        );
       case "IdUpload":
         return (
           <IdUpload
@@ -90,19 +92,15 @@ const App = () => {
     let sp = new URLSearchParams(window.location.search);
     let propertyID = sp.get("propertyID");
     setAdmin(sp.get("admin"));
+    setPropertyID(propertyID);
     console.log(admin, propertyID);
 
     if (admin === "false") {
       const f = async () => {
-        // TODO
-        // Fetch four digint code
-        // Fetch property name
         const snapshot = await db.collection("Property").doc(propertyID).get();
         const data = snapshot.data();
-
         console.log("NAME " + data.name);
         console.log("CODE " + data.code);
-
         setFetchedCode(data.code);
         setPropertyName(data.name);
       };

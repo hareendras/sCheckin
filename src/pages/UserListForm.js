@@ -1,20 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Card } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
-import Nav from "../../src/components/Nav";
-import axios from "axios";
+import Firebase from "../firebase";
+import * as firebase from "firebase/app";
 
-const UserListForm = ({ userOnClick, error }) => {
+const UserListForm = ({ userOnClick, propertyID, error }) => {
+  const [guests, setGuests] = useState();
+  let db = Firebase.firestore();
   useEffect(() => {
-    console.log("effect");
+    // console.log("Property ID >>" + propertyID);
+
     const f = async () => {
-      let result = await axios.get(
-        "https://www.hpb.health.gov.lk/api/get-current-statistical"
-      );
-      console.log(
-        "Usr list form new case" +
-          Object.values(result.data)[2].global_new_cases
-      );
+      console.log("User list fetch");
+      let today = new Date().toISOString().substring(0, 10);
+      today = `${today} 00:00:00`;
+      console.log(today);
+      const timestamp1 = firebase.firestore.Timestamp.fromDate(new Date(today));
+
+      let querySnap = await db
+        .collection("Property")
+        .doc("IjLOmeiBE9FPRaU9qCyW")
+        .collection("Guest")
+        .where("last_booking_date", "==", timestamp1)
+        .get();
+
+      querySnap.forEach(function (doc) {
+  
+        console.log(doc.id, " => ", doc.data());
+      });
     };
     f();
   }, []);
@@ -23,7 +36,6 @@ const UserListForm = ({ userOnClick, error }) => {
     <div>
       <MessageHeading main="Please tap on your name to begin" />
       <br />
-     
       <br />
       <Card.Group>
         <Card
