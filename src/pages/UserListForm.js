@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Card } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 import Firebase from "../firebase";
-import * as firebase from "firebase/app";
+import * as firebaseApp from "firebase/app";
 
 const UserListForm = ({ userOnClick, propertyID, error }) => {
-  const [guests, setGuests] = useState();
+  const [guests, setGuests] = useState([]);
   let db = Firebase.firestore();
   useEffect(() => {
     // console.log("Property ID >>" + propertyID);
@@ -15,19 +15,32 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
       let today = new Date().toISOString().substring(0, 10);
       today = `${today} 00:00:00`;
       console.log(today);
-      const timestamp1 = firebase.firestore.Timestamp.fromDate(new Date(today));
+      try {
+        const todayDate = firebaseApp.firestore.Timestamp.fromDate(
+          new Date(today)
+        );
 
-      let querySnap = await db
-        .collection("Property")
-        .doc("IjLOmeiBE9FPRaU9qCyW")
-        .collection("Guest")
-        .where("last_booking_date", "==", timestamp1)
-        .get();
+        let guestList = [];
 
-      querySnap.forEach(function (doc) {
-  
-        console.log(doc.id, " => ", doc.data());
-      });
+        let querySnap = await db
+          .collection("Property")
+          .doc("IjLOmeiBE9FPRaU9qCyW")
+          .collection("Guest")
+          .where("last_booking_date", "==", todayDate)
+          .get();
+        querySnap.forEach(function (doc) {
+          console.log(doc);
+          guestList.push({ id: doc.id, name: doc.data().name });
+        });
+
+        guestList.map((doc) =>
+          console.log("data in array" + doc.id + doc.name)
+        );
+
+        setGuests(guestList);
+      } catch (error) {
+        console.log(error);
+      }
     };
     f();
   }, []);
@@ -38,15 +51,21 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
       <br />
       <br />
       <Card.Group>
-        <Card
+        {/*<Card
           fluid
           color="red"
           header="Hareendra Seneviratne"
           onClick={() => userOnClick("red")}
-        />
-        <Card fluid color="orange" header="John Smith" />
-        <Card fluid color="yellow" header="Adrean" />
-        <Card fluid color="yellow" header="Pulla" />
+       /> */}
+        {guests.map((guest) => (
+          <Card
+            key={guest.id}
+            fluid
+            color="orange"
+            header={guest.name}
+            onClick={() => userOnClick("red")}
+          />
+        ))}
       </Card.Group>
     </div>
   );
