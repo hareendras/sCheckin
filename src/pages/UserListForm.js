@@ -19,7 +19,6 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
         const todayDate = firebaseApp.firestore.Timestamp.fromDate(
           new Date(today)
         );
-
         let guestList = [];
 
         let querySnap = await db

@@ -1,10 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Button } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 import Nav from "../../src/components/Nav";
+import Firebase from "../firebase";
+import * as firebaseApp from "firebase/app";
 
+const Confirmation = ({ propertyID, guestID, onChange, onSubmit, error }) => {
+  let db = Firebase.firestore();
 
-const Confirmation = ({ onChange, onSubmit, error }) => {
+  console.log("confirmation screen" + guestID, propertyID);
+  useEffect(() => {
+    const f = async () => {
+      //    let today = new Date().toISOString().substring(0, 10);
+      //    today = `${today} 00:00:00`;
+      //    console.log(today);
+      try {
+        //      const todayDate = firebaseApp.firestore.Timestamp.fromDate(
+        //        new Date(today)
+        //      );
+
+        console.log("propertyID " + propertyID);
+        console.log("guestID " + guestID);
+
+        let bookings = [];
+        let querySnap = await db
+          .collection("Property")
+          .doc(propertyID)
+          .collection("Guest")
+          .doc(guestID)
+          .collection("Bookings")
+          .get();
+
+        querySnap.forEach(function (doc) {
+          console.log(doc);
+          bookings.push({ amtUSD: doc.data().amtUSD, nights: doc.data().nights });
+        });
+
+        bookings.map((doc) => {
+          console.log("NIGHTS " + doc.nights);
+          console.log("AMT" + doc.amtUSD);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    f();
+  }, []);
+
   return (
     <div>
       <MessageHeading

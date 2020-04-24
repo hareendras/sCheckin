@@ -25,8 +25,8 @@ const App = () => {
   const [fetchedCode, setFetchedCode] = useState();
   const [propertyName, setPropertyName] = useState();
   const [propertyID, setPropertyID] = useState();
-  const [gusetID, setGuestID] = useState();
-  const [gusetName, setGuestName] = useState();
+  const [guestID, setGuestID] = useState();
+  const [guestName, setGuestName] = useState();
   const [admin, setAdmin] = useState();
 
   //LoginForm -- Guest
@@ -47,10 +47,10 @@ const App = () => {
   }; ////////////
 
   //UserListForm -- Guest
-  const userOnClick = (guestId,name) => {
-    setGuestID(guestId);
+  const userOnClick = (guestID,name) => {
+    setGuestID(guestID);
     setGuestName(name);
-    console.log(gusetID,gusetName);
+    console.log("Index userOnClick "+guestID,guestName);
     setCurrentPage("IdUpload");
   }; ///////////
 
@@ -106,14 +106,14 @@ const App = () => {
         return (
           <IdUpload
             propertyID={propertyID}
-            gusetID={gusetID}
-            guestName= {gusetName}
+            guestID={guestID}
+            guestName= {guestName}
             onclickBack={onclickBack}
             onclickContinue={onclickContinue}
           />
         );
       case "confirmation":
-        return <Confirmation />;
+        return <Confirmation guestID={guestID} propertyID={propertyID} />;
     }
   };
 

@@ -9,7 +9,7 @@ const IdUpload = ({
   onclickBack,
   onclickContinue,
   propertyID,
-  gusetID,
+  guestID,
   guestName,
   error,
 }) => {
@@ -57,7 +57,7 @@ const IdUpload = ({
   const handleClickContine = async () => {
     let storageRef = Firebase.storage().ref();
     let imagesRef = storageRef.child(propertyID);
-    let fileName = `${gusetID}.jpg`;
+    let fileName = `${guestID}.jpg`;
     let spaceRef = imagesRef.child(fileName);
     spaceRef.putString(imgURL, "data_url");
     onclickContinue();
