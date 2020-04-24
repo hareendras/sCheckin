@@ -24,18 +24,14 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
 
         let querySnap = await db
           .collection("Property")
-          .doc("IjLOmeiBE9FPRaU9qCyW")
+          .doc(propertyID)
           .collection("Guest")
           .where("last_booking_date", "==", todayDate)
           .get();
         querySnap.forEach(function (doc) {
           console.log(doc);
           guestList.push({ id: doc.id, name: doc.data().name });
-        });
-
-        guestList.map((doc) =>
-          console.log("data in array" + doc.id + doc.name)
-        );
+        });    
 
         setGuests(guestList);
       } catch (error) {
@@ -45,27 +41,33 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
     f();
   }, []);
 
+  const userListHandleClick = (guestId) => {
+    console.log("Handle click user list " + guestId);
+    userOnClick(guestId);
+  };
+
   return (
     <div>
       <MessageHeading main="Please tap on your name to begin" />
       <br />
       <br />
       <Card.Group>
-        {/*<Card
-          fluid
-          color="red"
-          header="Hareendra Seneviratne"
-          onClick={() => userOnClick("red")}
-       /> */}
         {guests.map((guest) => (
           <Card
             key={guest.id}
             fluid
             color="orange"
             header={guest.name}
-            onClick={() => userOnClick("red")}
+            onClick={() => userListHandleClick(guest.id)}
           />
         ))}
+        <Card
+            key={"walkin"}
+            fluid
+            color="orange"
+            header="Walk-in"
+            onClick={() => userListHandleClick("walkin")}
+          />
       </Card.Group>
     </div>
   );

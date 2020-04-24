@@ -25,6 +25,7 @@ const App = () => {
   const [fetchedCode, setFetchedCode] = useState();
   const [propertyName, setPropertyName] = useState();
   const [propertyID, setPropertyID] = useState();
+  const [gusetID, setGuestID] = useState();
   const [admin, setAdmin] = useState();
 
   //LoginForm -- Guest
@@ -45,7 +46,8 @@ const App = () => {
   }; ////////////
 
   //UserListForm -- Guest
-  const userOnClick = (user) => {
+  const userOnClick = (guestId) => {
+    setGuestID(guestId);
     setCurrentPage("IdUpload");
   }; ///////////
 
@@ -59,33 +61,6 @@ const App = () => {
   };
 
   /////////
-
-  const renderUI = () => {
-    console.log("render Ui" + currentPage);
-    switch (currentPage) {
-      case "login":
-        return (
-          <LoginForm
-            error={error}
-            onChange={HandleChange}
-            onSubmit={HandleSubmit}
-          />
-        );
-      case "home":
-        return (
-          <UserListForm userOnClick={userOnClick} propertyID={propertyID} />
-        );
-      case "IdUpload":
-        return (
-          <IdUpload
-            onclickBack={onclickBack}
-            onclickContinue={onclickContinue}
-          />
-        );
-      case "confirmation":
-        return <Confirmation />;
-    }
-  };
 
   useEffect(() => {
     console.log("effect");
@@ -107,6 +82,38 @@ const App = () => {
       f();
     }
   }, [admin]);
+  
+
+  const renderUI = () => {
+    console.log("render Ui" + currentPage);
+    switch (currentPage) {
+      case "login":
+        return (
+          <LoginForm
+            error={error}
+            onChange={HandleChange}
+            onSubmit={HandleSubmit}
+          />
+        );
+      case "home":
+        return (
+          <UserListForm userOnClick={userOnClick} propertyID={propertyID} />
+        );
+      case "IdUpload":
+        return (
+          <IdUpload
+            propertyID={propertyID}
+            gusetID={gusetID}
+            onclickBack={onclickBack}
+            onclickContinue={onclickContinue}
+          />
+        );
+      case "confirmation":
+        return <Confirmation />;
+    }
+  };
+
+
 
   return admin === "true" ? (
     <div>TODO admin app</div>

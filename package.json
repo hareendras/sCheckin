@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "firebase": "^7.14.1",
+    "image-compressor": "^2.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "semantic-ui-css": "^2.4.1",
