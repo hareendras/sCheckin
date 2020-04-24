@@ -10,6 +10,7 @@ const IdUpload = ({
   onclickContinue,
   propertyID,
   gusetID,
+  guestName,
   error,
 }) => {
   const [imgURL, setImgURL] = useState();
@@ -65,7 +66,7 @@ const IdUpload = ({
   return (
     <div>
       <MessageHeading
-        main="Hello Hareendra! Please upload your ID/Passport"
+        main={`Hello ${guestName}! Please upload your ID/Passport`}
         sub="Tap on camera icon to launch camera"
       />
       <br />

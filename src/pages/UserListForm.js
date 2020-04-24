@@ -41,9 +41,9 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
     f();
   }, []);
 
-  const userListHandleClick = (guestId) => {
+  const userListHandleClick = (guestId, name) => {
     console.log("Handle click user list " + guestId);
-    userOnClick(guestId);
+    userOnClick(guestId, name);
   };
 
   return (
@@ -58,7 +58,7 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
             fluid
             color="orange"
             header={guest.name}
-            onClick={() => userListHandleClick(guest.id)}
+            onClick={() => userListHandleClick(guest.id,guest.name)}
           />
         ))}
         <Card

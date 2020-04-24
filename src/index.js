@@ -26,6 +26,7 @@ const App = () => {
   const [propertyName, setPropertyName] = useState();
   const [propertyID, setPropertyID] = useState();
   const [gusetID, setGuestID] = useState();
+  const [gusetName, setGuestName] = useState();
   const [admin, setAdmin] = useState();
 
   //LoginForm -- Guest
@@ -46,8 +47,10 @@ const App = () => {
   }; ////////////
 
   //UserListForm -- Guest
-  const userOnClick = (guestId) => {
+  const userOnClick = (guestId,name) => {
     setGuestID(guestId);
+    setGuestName(name);
+    console.log(gusetID,gusetName);
     setCurrentPage("IdUpload");
   }; ///////////
 
@@ -82,7 +85,7 @@ const App = () => {
       f();
     }
   }, [admin]);
-  
+
 
   const renderUI = () => {
     console.log("render Ui" + currentPage);
@@ -104,6 +107,7 @@ const App = () => {
           <IdUpload
             propertyID={propertyID}
             gusetID={gusetID}
+            guestName= {gusetName}
             onclickBack={onclickBack}
             onclickContinue={onclickContinue}
           />
