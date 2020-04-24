@@ -1,31 +1,36 @@
 import React, { useState } from "react";
 import { Icon, Form, Button } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
-import { ImageCompressor } from "image-compressor"
+import { ImageCompressor } from "image-compressor";
+import Firebase from "./../firebase";
 import styles from "../css/IdUpload.css";
 
-const IdUpload = ({ onclickBack, onclickContinue,propertyID,gusetID, error }) => {
+const IdUpload = ({
+  onclickBack,
+  onclickContinue,
+  propertyID,
+  gusetID,
+  error,
+}) => {
   const [imgURL, setImgURL] = useState();
 
-  const handleImgUpd = async event => {
+  const handleImgUpd = async (event) => {
     const file = event.target.files[0];
     const url = await readURL(file);
     const compressedDataURL = await compressImg(url);
     setImgURL(compressedDataURL);
   };
 
-
-  
-  const readURL = file => {
+  const readURL = (file) => {
     return new Promise((res, rej) => {
       const reader = new FileReader();
-      reader.onload = e => res(e.target.result);
-      reader.onerror = e => rej(e);
+      reader.onload = (e) => res(e.target.result);
+      reader.onerror = (e) => rej(e);
       reader.readAsDataURL(file);
     });
   };
 
-  const compressImg = dataURL => {
+  const compressImg = (dataURL) => {
     return new Promise((resolve, reject) => {
       const imageCompressor = new ImageCompressor();
       const compressorSettings = {
@@ -48,6 +53,14 @@ const IdUpload = ({ onclickBack, onclickContinue,propertyID,gusetID, error }) =>
     });
   };
 
+  const handleClickContine = async () => {
+    let storageRef = Firebase.storage().ref();
+    let imagesRef = storageRef.child(propertyID);
+    let fileName = `${gusetID}.jpg`;
+    let spaceRef = imagesRef.child(fileName);
+    spaceRef.putString(imgURL, "data_url");
+    onclickContinue();
+  };
 
   return (
     <div>
@@ -59,7 +72,7 @@ const IdUpload = ({ onclickBack, onclickContinue,propertyID,gusetID, error }) =>
 
       <br />
 
-      <Form >
+      <Form>
         {error && <span style={{ color: "red" }}>{error}</span>}
 
         {!imgURL && (
@@ -81,7 +94,7 @@ const IdUpload = ({ onclickBack, onclickContinue,propertyID,gusetID, error }) =>
 
         <div className="btnFlexContainer">
           <Button content="<<Back" onClick={onclickBack} />
-          <Button content="Continue" onClick={onclickContinue} />
+          <Button content="Continue" onClick={handleClickContine} />
         </div>
       </Form>
     </div>

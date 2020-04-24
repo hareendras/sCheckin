@@ -62,7 +62,7 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
           />
         ))}
         <Card
-            key={"walkin"}
+            key={"walk"}
             fluid
             color="orange"
             header="Walk-in"
