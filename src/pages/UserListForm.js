@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
+import WalkInForm from "./WalkInForm";
 import Firebase from "../firebase";
 import * as firebaseApp from "firebase/app";
 
 const UserListForm = ({ userOnClick, propertyID, error }) => {
   const [guests, setGuests] = useState([]);
+  const [walkInFormOpen, setWalkInFormOpen] = useState(false);
   let db = Firebase.firestore();
   useEffect(() => {
     // console.log("Property ID >>" + propertyID);
@@ -30,7 +32,7 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
         querySnap.forEach(function (doc) {
           console.log(doc);
           guestList.push({ id: doc.id, name: doc.data().name });
-        });    
+        });
 
         setGuests(guestList);
       } catch (error) {
@@ -45,6 +47,10 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
     userOnClick(guestId, name);
   };
 
+  const userListHandleWalkinClick = () => {
+    setWalkInFormOpen(true);
+  };
+
   return (
     <div>
       <MessageHeading main="Please tap on your name to begin" />
@@ -57,16 +63,17 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
             fluid
             color="orange"
             header={guest.name}
-            onClick={() => userListHandleClick(guest.id,guest.name)}
+            onClick={() => userListHandleClick(guest.id, guest.name)}
           />
         ))}
         <Card
-            key={"walk"}
-            fluid
-            color="orange"
-            header="Walk-in"
-            onClick={() => userListHandleClick("walkin")}
-          />
+          key={"walk"}
+          fluid
+          color="orange"
+          header="Walk-in"
+          onClick={() => userListHandleWalkinClick("walkin")}
+        />
+        <WalkInForm showModal={walkInFormOpen} propertyID={propertyID} userListHandleClick={userListHandleClick} />
       </Card.Group>
     </div>
   );
