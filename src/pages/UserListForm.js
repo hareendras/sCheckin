@@ -21,8 +21,8 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
         const todayDate = firebaseApp.firestore.Timestamp.fromDate(
           new Date(today)
         );
-        let guestList = [];
 
+        let guestList = [];
         let querySnap = await db
           .collection("Property")
           .doc(propertyID)
@@ -73,7 +73,11 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
           header="Walk-in"
           onClick={() => userListHandleWalkinClick("walkin")}
         />
-        <WalkInForm showModal={walkInFormOpen} propertyID={propertyID} userListHandleClick={userListHandleClick} />
+        <WalkInForm
+          showModal={walkInFormOpen}
+          propertyID={propertyID}
+          userListHandleClick={userListHandleClick}
+        />
       </Card.Group>
     </div>
   );

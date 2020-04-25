@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Button, Modal, Checkbox, Form } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
+import Firebase from "../firebase";
+import * as firebaseApp from "firebase/app";
 
-const WalkInForm = ({ showModal,  userListHandleClick, propertyID }) => {
+const WalkInForm = ({ showModal, userListHandleClick, propertyID }) => {
   const [err, setErr] = useState("");
   const [name, setName] = useState("");
   const [nights, setNights] = useState("");
-
+  let db = Firebase.firestore();
   const handleNameChange = (e) => {
     console.log(e.target.value);
     setName(e.target.value);
@@ -17,12 +19,39 @@ const WalkInForm = ({ showModal,  userListHandleClick, propertyID }) => {
     setNights(e.target.value);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     // TODO Create Guest and booking here
-        
+    let guest = "";
+    let booking = "";
+    try {
+      let today = new Date().toISOString().substring(0, 10);
+      today = `${today} 00:00:00`;
+      console.log(today);
+      const timestamp1 = firebaseApp.firestore.Timestamp.fromDate(
+        new Date(today)
+      );
+      guest = await db
+        .collection("Property")
+        .doc(propertyID)
+        .collection("Guest")
+        .add({ name: name, last_booking_date: timestamp1 });
+      console.log("Guest created " + guest.id);
 
-    userListHandleClick(1234,"newewe");
-   
+      booking = await db
+        .collection("Property")
+        .doc(propertyID)
+        .collection("Guest")
+        .doc(guest.id)
+        .collection("Bookings")
+        .add({
+          nights: nights,
+        });
+
+      console.log("Booking created" + booking.id);
+    } catch (error) {
+      console.error("ERROR " + error);
+    }
+    userListHandleClick(guest.id, name);
   };
 
   return (
