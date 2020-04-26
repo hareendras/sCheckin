@@ -113,7 +113,7 @@ const App = () => {
           />
         );
       case "confirmation":
-        return <Confirmation guestID={guestID} propertyID={propertyID} />;
+        return <Confirmation guestID={guestID} guestName={guestName} propertyID={propertyID} />;
     }
   };
 
