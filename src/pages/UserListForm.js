@@ -29,7 +29,7 @@ const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
           .doc(propertyID)
           .collection("Guest")
           .where("last_booking_date", "==", todayDate)
-          .where("checkein", "==", false)
+          .where("checkedin", "==", false)
           .get();
         querySnap.forEach(function (doc) {
           console.log(doc);
@@ -54,6 +54,9 @@ const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
     setWalkInFormOpen(true);
   };
 
+  const closeWorkingForm = () => {
+    setWalkInFormOpen(false);
+  }
   return (
     <div>
       <MessageHeading main="Please tap on your name to begin" />
@@ -80,6 +83,7 @@ const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
           showModal={walkInFormOpen}
           propertyID={propertyID}
           userListHandleClick={userListHandleClick}
+          closeWorkingForm={closeWorkingForm}
         />
       </Card.Group>
     </div>

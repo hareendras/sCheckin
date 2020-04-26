@@ -4,9 +4,16 @@ import MessageHeading from "../../src/components/MessageHeading";
 import Firebase from "../firebase";
 import * as firebaseApp from "firebase/app";
 
-const Confirmation = ({ propertyID, guestID, guestName, onSubmit, error }) => {
+const Confirmation = ({
+  propertyID,
+  guestID,
+  guestName,
+  setLoading,
+  error,
+}) => {
   let db = Firebase.firestore();
   const [booking, setBooking] = useState({
+    id: "",
     nights: 0,
     price_USD: 0,
     price_LKR: 0,
@@ -24,7 +31,7 @@ const Confirmation = ({ propertyID, guestID, guestName, onSubmit, error }) => {
         );
         console.log("propertyID " + propertyID);
         console.log("guestID " + guestID);
-
+        setLoading(true);
         let bookings = [];
         let querySnap = await db
           .collection("Property")
@@ -39,6 +46,7 @@ const Confirmation = ({ propertyID, guestID, guestName, onSubmit, error }) => {
         querySnap.forEach(function (doc) {
           console.log(doc);
           bookings.push({
+            id: doc.id,
             nights: doc.data().nights,
             price_USD: doc.data().price_USD,
             price_LKR: doc.data().price_LKR,
@@ -50,6 +58,7 @@ const Confirmation = ({ propertyID, guestID, guestName, onSubmit, error }) => {
           console.log("AMT USD" + booking.price_USD);
           console.log("AMT LKR" + booking.price_LKR);
           setBooking({
+            id: booking.id,
             nights: booking.nights,
             price_USD: booking.price_USD,
             price_LKR: booking.price_LKR,
@@ -58,9 +67,25 @@ const Confirmation = ({ propertyID, guestID, guestName, onSubmit, error }) => {
       } catch (error) {
         console.error(error);
       }
+      setLoading(false);
     };
     f();
   }, []);
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      await db
+        .collection("Property")
+        .doc(propertyID)
+        .collection("Guest")
+        .doc(guestID)        
+        .update({ checkedin: true });
+    } catch (err) {
+      console.log("Confirmation.js Line 78" + err);
+    }
+    setLoading(false);
+  };
 
   return (
     <div>
@@ -89,7 +114,9 @@ const Confirmation = ({ propertyID, guestID, guestName, onSubmit, error }) => {
             />
           </Form.Field>
 
-          <Button type="submit">Check Inn</Button>
+          <Button type="submit" onClick={handleSubmit}>
+            Check Inn
+          </Button>
         </Form>
       </div>
     </div>

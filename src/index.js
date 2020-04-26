@@ -127,6 +127,7 @@ const App = () => {
             guestID={guestID}
             guestName={guestName}
             propertyID={propertyID}
+            setLoading={setLoading}
           />
         );
     }

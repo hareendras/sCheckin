@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Message } from "semantic-ui-react";
+import { Form, Input } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 
 const LoginForm = ({ onChange, onSubmit, error }) => {

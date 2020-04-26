@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useState } from "react";
 import { Button, Modal, Form, Dimmer, Loader } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import Firebase from "../firebase";
 import * as firebaseApp from "firebase/app";
+import styles from "../css/IdUpload.css";
 
-const WalkInForm = ({ showModal, userListHandleClick, propertyID }) => {
+const WalkInForm = ({
+  showModal,
+  userListHandleClick,
+  closeWorkingForm,
+  propertyID,
+}) => {
   const [errorName, setErrName] = useState("");
   const [errorNights, setErrNights] = useState("");
   const [name, setName] = useState("");
@@ -59,8 +64,7 @@ const WalkInForm = ({ showModal, userListHandleClick, propertyID }) => {
         .collection("Bookings")
         .add({
           nights: nights,
-          checkin_date: timestamp1,
-          checkedin: true,
+          checkin_date: timestamp1,          
           //need to handle price properly
           price_USD: 10,
           price_LKR: 2000,
@@ -72,6 +76,10 @@ const WalkInForm = ({ showModal, userListHandleClick, propertyID }) => {
       console.error("ERROR " + error);
     }
     userListHandleClick(guest.id, name);
+  };
+
+  const handleBack = () => {
+    closeWorkingForm();
   };
 
   return (
@@ -89,9 +97,16 @@ const WalkInForm = ({ showModal, userListHandleClick, propertyID }) => {
             <label>No of nights</label>
             <input onChange={handleNightsChange} placeholder="Nights" />
           </Form.Field>
-          <Button onClick={handleContinue} type="submit">
-            Continue
-          </Button>
+          <div className="btnFlexContainer">
+            <Button
+              content="<<Back  "
+              onClick={handleBack}
+              type="submit"
+            ></Button>
+            <Button onClick={handleContinue} type="submit">
+              Continue
+            </Button>
+          </div>
         </Form>
         <Dimmer active={loading}>
           <Loader size="massive"></Loader>

@@ -67,17 +67,19 @@ const IdUpload = ({
     <div>
       {!imgURL && (
         <MessageHeading
-          main={`Hello ${guestName}! Please upload a snap of your ID/Passport`}
+          main={`Hello ${guestName}! Let's upload a snap of your ID/Passport`}
           sub="Tap on camera icon to launch camera"
         />
       )}
 
-      {imgURL && <MessageHeading main={`Hello ${guestName}. Nice snap!`} sub="Let's continue" />}
-
+      {imgURL && (
+        <MessageHeading
+          main={`Hello ${guestName}. Awesome snap!`}
+          sub="Let's continue"
+        />
+      )}
       <br />
-
       <br />
-
       <Form>
         {error && <span style={{ color: "red" }}>{error}</span>}
 
@@ -99,7 +101,7 @@ const IdUpload = ({
         <br />
 
         <div className="btnFlexContainer">
-          <Button content="<<Back" onClick={onclickBack} />
+          <Button content="<<Back  " onClick={onclickBack} />
           <Button content="Continue" onClick={handleClickContine} />
         </div>
       </Form>
