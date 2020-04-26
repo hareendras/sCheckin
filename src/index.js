@@ -6,7 +6,7 @@ import {
   Header,
   Segment,
   Dimmer,
-  Loader
+  Loader,
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import LoginForm from "./pages/LoginForm";
@@ -105,7 +105,11 @@ const App = () => {
         );
       case "home":
         return (
-          <UserListForm userOnClick={userOnClick} propertyID={propertyID} />
+          <UserListForm
+            userOnClick={userOnClick}
+            propertyID={propertyID}
+            setLoading={setLoading}
+          />
         );
       case "IdUpload":
         return (

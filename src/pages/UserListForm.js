@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Card, Dimmer, Loader } from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 import WalkInForm from "./WalkInForm";
 import Firebase from "../firebase";
 import * as firebaseApp from "firebase/app";
 
-const UserListForm = ({ userOnClick, propertyID, error }) => {
+const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
   const [guests, setGuests] = useState([]);
   const [walkInFormOpen, setWalkInFormOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   let db = Firebase.firestore();
   useEffect(() => {
     // console.log("Property ID >>" + propertyID);
-
+    setLoading(true);
     const f = async () => {
       console.log("User list fetch");
       let today = new Date().toISOString().substring(0, 10);
@@ -83,9 +82,6 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
           userListHandleClick={userListHandleClick}
         />
       </Card.Group>
-      <Dimmer active={loading}>
-        <Loader size="massive"></Loader>
-      </Dimmer>
     </div>
   );
 };

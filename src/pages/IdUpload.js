@@ -65,10 +65,15 @@ const IdUpload = ({
 
   return (
     <div>
-      <MessageHeading
-        main={`Hello ${guestName}! Please upload your ID/Passport`}
-        sub="Tap on camera icon to launch camera"
-      />
+      {!imgURL && (
+        <MessageHeading
+          main={`Hello ${guestName}! Please upload a snap of your ID/Passport`}
+          sub="Tap on camera icon to launch camera"
+        />
+      )}
+
+      {imgURL && <MessageHeading main={`Hello ${guestName}. Nice snap!`} sub="Let's continue" />}
+
       <br />
 
       <br />
