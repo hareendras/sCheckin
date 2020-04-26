@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card } from "semantic-ui-react";
+import { Card, Dimmer, Loader } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 import WalkInForm from "./WalkInForm";
 import Firebase from "../firebase";
@@ -8,6 +8,8 @@ import * as firebaseApp from "firebase/app";
 const UserListForm = ({ userOnClick, propertyID, error }) => {
   const [guests, setGuests] = useState([]);
   const [walkInFormOpen, setWalkInFormOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   let db = Firebase.firestore();
   useEffect(() => {
     // console.log("Property ID >>" + propertyID);
@@ -28,6 +30,7 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
           .doc(propertyID)
           .collection("Guest")
           .where("last_booking_date", "==", todayDate)
+          .where("checkein", "==", false)
           .get();
         querySnap.forEach(function (doc) {
           console.log(doc);
@@ -35,8 +38,9 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
         });
 
         setGuests(guestList);
+        setLoading(false);
       } catch (error) {
-        console.log(error);
+        console.error("UserListForm Line 42" + error);
       }
     };
     f();
@@ -79,6 +83,9 @@ const UserListForm = ({ userOnClick, propertyID, error }) => {
           userListHandleClick={userListHandleClick}
         />
       </Card.Group>
+      <Dimmer active={loading}>
+        <Loader size="massive"></Loader>
+      </Dimmer>
     </div>
   );
 };

@@ -6,8 +6,11 @@ import * as firebaseApp from "firebase/app";
 
 const Confirmation = ({ propertyID, guestID, guestName, onSubmit, error }) => {
   let db = Firebase.firestore();
-  const [nights, setNights] = useState(0);
-  const [amount, setAmt] = useState(0);
+  const [booking, setBooking] = useState({
+    nights: 0,
+    price_USD: 0,
+    price_LKR: 0,
+  });
 
   console.log("confirmation screen" + guestID, propertyID);
   useEffect(() => {
@@ -29,26 +32,31 @@ const Confirmation = ({ propertyID, guestID, guestName, onSubmit, error }) => {
           .collection("Guest")
           .doc(guestID)
           .collection("Bookings")
-          .where("date", "==", todayDate)
+          .where("checkin_date", "==", todayDate)
           .get();
+        console.log("Confirmation qs " + querySnap);
 
         querySnap.forEach(function (doc) {
           console.log(doc);
           bookings.push({
-            amtUSD: doc.data().amtUSD,
             nights: doc.data().nights,
+            price_USD: doc.data().price_USD,
+            price_LKR: doc.data().price_LKR,
           });
         });
 
-        bookings.map((doc) => {
-          console.log("NIGHTS " + doc.nights);
-
-          console.log("AMT" + doc.amtUSD);
-          setNights(doc.nights);
-          setAmt(doc.amtUSD);
+        bookings.map((booking) => {
+          console.log("NIGHTS " + booking.nights);
+          console.log("AMT USD" + booking.price_USD);
+          console.log("AMT LKR" + booking.price_LKR);
+          setBooking({
+            nights: booking.nights,
+            price_USD: booking.price_USD,
+            price_LKR: booking.price_LKR,
+          });
         });
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     f();
@@ -65,16 +73,20 @@ const Confirmation = ({ propertyID, guestID, guestName, onSubmit, error }) => {
       <div>
         <Form>
           <Form.Field>
-            <label>Your Name</label>
-            <input placeholder="First Name" disabled value={guestName || ""} />
-          </Form.Field>
-          <Form.Field>
             <label>No of nights</label>
-            <input placeholder="" disabled value={nights} />
+            <input placeholder="" disabled value={booking.nights} />
           </Form.Field>
           <Form.Field>
             <label>Amount Payable USD</label>
-            <input placeholder="Last Name" disabled value={amount || ""} />
+            <input placeholder="Last Name" disabled value={booking.price_USD} />
+          </Form.Field>
+          <Form.Field>
+            <label>Amount Payable LKR</label>
+            <input
+              placeholder="First Name"
+              disabled
+              value={booking.price_LKR}
+            />
           </Form.Field>
 
           <Button type="submit">Check Inn</Button>

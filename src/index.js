@@ -4,9 +4,9 @@ import {
   Divider,
   Container,
   Header,
-  Message,
   Segment,
-  Breadcrumb,
+  Dimmer,
+  Loader
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import LoginForm from "./pages/LoginForm";
@@ -18,6 +18,7 @@ import "firebase/firestore";
 
 const App = () => {
   let db = Firebase.firestore();
+  const [loading, setLoading] = useState(true);
 
   const [code, setCode] = useState();
   const [error, setError] = useState("");
@@ -47,10 +48,10 @@ const App = () => {
   }; ////////////
 
   //UserListForm -- Guest
-  const userOnClick = (guestID,name) => {
+  const userOnClick = (guestID, name) => {
     setGuestID(guestID);
     setGuestName(name);
-    console.log("Index userOnClick "+guestID,guestName);
+    console.log("Index userOnClick " + guestID, guestName);
     setCurrentPage("IdUpload");
   }; ///////////
 
@@ -81,11 +82,15 @@ const App = () => {
         console.log("CODE " + data.code);
         setFetchedCode(data.code);
         setPropertyName(data.name);
+        setLoading(false);
       };
-      f();
+      try {
+        f();
+      } catch (err) {
+        console.error("index.js line 91" + error);
+      }
     }
   }, [admin]);
-
 
   const renderUI = () => {
     console.log("render Ui" + currentPage);
@@ -107,17 +112,21 @@ const App = () => {
           <IdUpload
             propertyID={propertyID}
             guestID={guestID}
-            guestName= {guestName}
+            guestName={guestName}
             onclickBack={onclickBack}
             onclickContinue={onclickContinue}
           />
         );
       case "confirmation":
-        return <Confirmation guestID={guestID} guestName={guestName} propertyID={propertyID} />;
+        return (
+          <Confirmation
+            guestID={guestID}
+            guestName={guestName}
+            propertyID={propertyID}
+          />
+        );
     }
   };
-
-
 
   return admin === "true" ? (
     <div>TODO admin app</div>
@@ -134,6 +143,9 @@ const App = () => {
         {/* <IdUpload />  */}
         {/*<Confirmation />*/}
       </Segment>
+      <Dimmer active={loading}>
+        <Loader size="massive"></Loader>
+      </Dimmer>
     </Container>
   );
 };

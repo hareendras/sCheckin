@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { Button, Modal, Checkbox, Form } from "semantic-ui-react";
+import { Button, Modal,  Form, Dimmer, Loader } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import Firebase from "../firebase";
 import * as firebaseApp from "firebase/app";
@@ -9,6 +9,7 @@ const WalkInForm = ({ showModal, userListHandleClick, propertyID }) => {
   const [err, setErr] = useState("");
   const [name, setName] = useState("");
   const [nights, setNights] = useState("");
+  const [loading, setLoading] = useState(false);
   let db = Firebase.firestore();
   const handleNameChange = (e) => {
     console.log(e.target.value);
@@ -23,6 +24,7 @@ const WalkInForm = ({ showModal, userListHandleClick, propertyID }) => {
     // TODO Create Guest and booking here
     let guest = "";
     let booking = "";
+    setLoading(true);
     try {
       let today = new Date().toISOString().substring(0, 10);
       today = `${today} 00:00:00`;
@@ -45,9 +47,15 @@ const WalkInForm = ({ showModal, userListHandleClick, propertyID }) => {
         .collection("Bookings")
         .add({
           nights: nights,
+          checkin_date: timestamp1,
+          checkedin: true,
+          //need to handle price properly
+          price_USD: 10,
+          price_LKR: 2000
         });
 
       console.log("Booking created" + booking.id);
+      setLoading(false);
     } catch (error) {
       console.error("ERROR " + error);
     }
@@ -71,6 +79,9 @@ const WalkInForm = ({ showModal, userListHandleClick, propertyID }) => {
             Continue
           </Button>
         </Form>
+        <Dimmer active={loading}>
+          <Loader size="massive"></Loader>
+        </Dimmer>
       </Modal.Content>
     </Modal>
   );
