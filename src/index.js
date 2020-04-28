@@ -13,6 +13,7 @@ import LoginForm from "./pages/LoginForm";
 import UserListForm from "./pages/UserListForm";
 import IdUpload from "./pages/IdUpload";
 import Confirmation from "./pages/Confirmation";
+import Done from "./pages/Done";
 import Firebase from "./firebase";
 import "firebase/firestore";
 
@@ -65,6 +66,12 @@ const App = () => {
   };
 
   /////////
+
+  // confirmation page
+  const done = () => {
+    setCurrentPage("done");
+  };
+  //////
 
   useEffect(() => {
     console.log("effect");
@@ -128,8 +135,11 @@ const App = () => {
             guestName={guestName}
             propertyID={propertyID}
             setLoading={setLoading}
+            done={done}
           />
         );
+      case "done":
+        return <Done />;
     }
   };
 

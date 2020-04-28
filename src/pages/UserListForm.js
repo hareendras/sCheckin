@@ -38,6 +38,7 @@ const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
 
         setGuests(guestList);
         setLoading(false);
+        window.scrollTo(0,0);
       } catch (error) {
         console.error("UserListForm Line 42" + error);
       }
@@ -59,7 +60,7 @@ const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
   }
   return (
     <div>
-      <MessageHeading main="Please tap on your name to begin" />
+      <MessageHeading main="Please tap on your name to begin. For walk ins please tap Walk-in option" />
       <br />
       <br />
       <Card.Group>
@@ -67,7 +68,7 @@ const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
           <Card
             key={guest.id}
             fluid
-            color="orange"
+            color="green"
             header={guest.name}
             onClick={() => userListHandleClick(guest.id, guest.name)}
           />

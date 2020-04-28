@@ -9,6 +9,7 @@ const Confirmation = ({
   guestID,
   guestName,
   setLoading,
+  done,
   error,
 }) => {
   let db = Firebase.firestore();
@@ -67,24 +68,25 @@ const Confirmation = ({
       } catch (error) {
         console.error(error);
       }
-      setLoading(false);
+      setLoading(false);      
     };
     f();
   }, []);
 
-  const handleSubmit = async () => {
+  const handleCheckIn = async () => {
     try {
       setLoading(true);
       await db
         .collection("Property")
         .doc(propertyID)
         .collection("Guest")
-        .doc(guestID)        
+        .doc(guestID)
         .update({ checkedin: true });
     } catch (err) {
       console.log("Confirmation.js Line 78" + err);
     }
     setLoading(false);
+    done();
   };
 
   return (
@@ -114,7 +116,7 @@ const Confirmation = ({
             />
           </Form.Field>
 
-          <Button type="submit" onClick={handleSubmit}>
+          <Button type="submit" onClick={handleCheckIn}>
             Check Inn
           </Button>
         </Form>
