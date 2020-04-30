@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Card } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 import WalkInForm from "./WalkInForm";
-import Firebase from "../firebase";
-import * as firebaseApp from "firebase/app";
+import {db,firebase} from "../firebase";
+
 
 const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
   const [guests, setGuests] = useState([]);
   const [walkInFormOpen, setWalkInFormOpen] = useState(false);
 
-  let db = Firebase.firestore();
+
   useEffect(() => {
     // console.log("Property ID >>" + propertyID);
     setLoading(true);
@@ -19,7 +19,7 @@ const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
       today = `${today} 00:00:00`;
       console.log(today);
       try {
-        const todayDate = firebaseApp.firestore.Timestamp.fromDate(
+        const todayDate = firebase.firestore.Timestamp.fromDate(
           new Date(today)
         );
 

@@ -14,13 +14,10 @@ import UserListForm from "./pages/UserListForm";
 import IdUpload from "./pages/IdUpload";
 import Confirmation from "./pages/Confirmation";
 import Done from "./pages/Done";
-import Firebase from "./firebase";
-import "firebase/firestore";
+import { db, auth } from "./firebase";
 
 const App = () => {
-  let db = Firebase.firestore();
   const [loading, setLoading] = useState(true);
-
   const [code, setCode] = useState();
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState("login");
@@ -82,7 +79,22 @@ const App = () => {
     console.log(admin, propertyID);
 
     if (admin === "false") {
+      auth.onAuthStateChanged(function (user) {
+        if (user) {
+          // User is signed in.
+          var isAnonymous = user.isAnonymous;
+          var uid = user.uid;
+          console.log("User signed in +" + uid);
+          // ...
+        } else {
+          // User is signed out.
+          // ...
+        }
+        // ...
+      });
+
       const f = async () => {
+        await auth.signInAnonymously();
         const snapshot = await db.collection("Property").doc(propertyID).get();
         const data = snapshot.data();
         console.log("NAME " + data.name);
@@ -91,6 +103,7 @@ const App = () => {
         setPropertyName(data.name);
         setLoading(false);
       };
+
       try {
         f();
       } catch (err) {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Icon, Form, Button } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 import { ImageCompressor } from "image-compressor";
-import Firebase from "./../firebase";
+import {storage} from "./../firebase";
 import styles from "../css/IdUpload.css";
 
 const IdUpload = ({
@@ -55,7 +55,7 @@ const IdUpload = ({
   };
 
   const handleClickContine = async () => {
-    let storageRef = Firebase.storage().ref();
+    let storageRef = storage.ref();
     let imagesRef = storageRef.child(propertyID);
     let fileName = `${guestID}.jpg`;
     let spaceRef = imagesRef.child(fileName);

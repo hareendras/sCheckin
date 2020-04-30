@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
-import Firebase from "../firebase";
-import * as firebaseApp from "firebase/app";
+import { db, firebase } from "../firebase";
 
 const Confirmation = ({
   propertyID,
@@ -12,7 +11,6 @@ const Confirmation = ({
   done,
   error,
 }) => {
-  let db = Firebase.firestore();
   const [booking, setBooking] = useState({
     id: "",
     nights: 0,
@@ -27,7 +25,7 @@ const Confirmation = ({
       today = `${today} 00:00:00`;
       console.log(today);
       try {
-        const todayDate = firebaseApp.firestore.Timestamp.fromDate(
+        const todayDate = firebase.firestore.Timestamp.fromDate(
           new Date(today)
         );
         console.log("propertyID " + propertyID);
@@ -68,7 +66,7 @@ const Confirmation = ({
       } catch (error) {
         console.error(error);
       }
-      setLoading(false);      
+      setLoading(false);
     };
     f();
   }, []);

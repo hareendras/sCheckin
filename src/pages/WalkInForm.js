@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, Dimmer, Loader } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
-import Firebase from "../firebase";
-import * as firebaseApp from "firebase/app";
+import {db,firebase} from "../firebase";
+
 import styles from "../css/IdUpload.css";
 
 const WalkInForm = ({
@@ -16,7 +16,7 @@ const WalkInForm = ({
   const [name, setName] = useState("");
   const [nights, setNights] = useState("");
   const [loading, setLoading] = useState(false);
-  let db = Firebase.firestore();
+  
   const handleNameChange = (e) => {
     console.log(e.target.value);
     setName(e.target.value);
@@ -46,7 +46,7 @@ const WalkInForm = ({
       let today = new Date().toISOString().substring(0, 10);
       today = `${today} 00:00:00`;
       console.log(today);
-      const timestamp1 = firebaseApp.firestore.Timestamp.fromDate(
+      const timestamp1 = firebase.firestore.Timestamp.fromDate(
         new Date(today)
       );
       guest = await db
