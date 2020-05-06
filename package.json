@@ -16,8 +16,10 @@
     "image-compressor": "^2.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-semantic-ui-datepickers": "^2.5.2",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2"
+    "semantic-ui-react": "^0.88.2",
+    "semantic-ui-react-input-file": "^1.0.3"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.9.0",

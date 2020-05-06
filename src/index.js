@@ -14,6 +14,7 @@ import UserListForm from "./pages/UserListForm";
 import IdUpload from "./pages/IdUpload";
 import Confirmation from "./pages/Confirmation";
 import Done from "./pages/Done";
+import Admin from "./pages/admin/Admin";
 import { db, auth } from "./firebase";
 
 const App = () => {
@@ -162,7 +163,7 @@ const App = () => {
   };
 
   return admin === "true" ? (
-    <div>TODO admin app</div>
+    <Admin />
   ) : (
     <Container>
       <Divider />
