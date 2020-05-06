@@ -3,7 +3,7 @@ import { Button, Modal, Form, Dimmer, Loader } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import {db,firebase} from "../firebase";
 
-import styles from "../css/IdUpload.css";
+import styles from "../css/idUpload.css";
 
 const WalkInForm = ({
   showModal,

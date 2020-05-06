@@ -88,32 +88,37 @@ const App = () => {
           // ...
         } else {
           // User is signed out.
-          // ...
+          // ...      
+          
         }
         // ...
       });
 
       const f = async () => {
+        try {
+        console.log("trying to sign in");
         await auth.signInAnonymously();
         const snapshot = await db.collection("Property").doc(propertyID).get();
         const data = snapshot.data();
-        console.log("NAME " + data.name);
-        console.log("CODE " + data.code);
+        //console.log("NAME " + data.name);
+        //console.log("CODE " + data.code);
+        setLoading(false);
         setFetchedCode(data.code);
         setPropertyName(data.name);
-        setLoading(false);
-      };
-
-      try {
-        f();
       } catch (err) {
+        setLoading(false);
         console.error("index.js line 91" + error);
+        setError("Woops error occured!!! " + error);
       }
+
+      };      
+        f();     
     }
   }, [admin]);
 
   const renderUI = () => {
     console.log("render Ui" + currentPage);
+
     switch (currentPage) {
       case "login":
         return (

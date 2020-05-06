@@ -3,7 +3,7 @@ import { Icon, Form, Button } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 import { ImageCompressor } from "image-compressor";
 import {storage} from "./../firebase";
-import styles from "../css/IdUpload.css";
+import styles from "../css/idUpload.css";
 
 const IdUpload = ({
   onclickBack,
