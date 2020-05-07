@@ -5,10 +5,10 @@ import WalkInForm from "./WalkInForm";
 import {db,firebase} from "../firebase";
 
 
-const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
+const UserListForm = ({ userOnClick, propertyID, setLoading }) => {
   const [guests, setGuests] = useState([]);
   const [walkInFormOpen, setWalkInFormOpen] = useState(false);
-
+  const [error, setError] = useState();
 
   useEffect(() => {
     // console.log("Property ID >>" + propertyID);
@@ -41,6 +41,8 @@ const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
         window.scrollTo(0,0);
       } catch (error) {
         console.error("UserListForm Line 42" + error);
+        setError("Woops something went wrong :"+ error);
+        setLoading(false);
       }
     };
     f();
@@ -63,6 +65,7 @@ const UserListForm = ({ userOnClick, propertyID, setLoading, error }) => {
       <MessageHeading main="Please tap on your name to begin. For walk ins please tap Walk-in option" />
       <br />
       <br />
+      {error && <span style={{ color: "red" }}>{error}</span>}
       <Card.Group>
         {guests.map((guest) => (
           <Card

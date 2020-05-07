@@ -108,8 +108,8 @@ const App = () => {
         setPropertyName(data.name);
       } catch (err) {
         setLoading(false);
-        console.error("index.js line 91" + error);
-        setError("Woops error occured!!! " + error);
+        console.error("index.js line 91" + err);
+        setError("Woops error occured!!! Please scan the QR code and try again" );
       }
 
       };      

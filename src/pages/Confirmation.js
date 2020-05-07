@@ -8,8 +8,8 @@ const Confirmation = ({
   guestID,
   guestName,
   setLoading,
-  done,
-  error,
+  done
+  
 }) => {
   const [booking, setBooking] = useState({
     id: "",
@@ -18,6 +18,7 @@ const Confirmation = ({
     price_LKR: 0,
   });
 
+  const [error, setError] = useState();
   console.log("confirmation screen" + guestID, propertyID);
   useEffect(() => {
     const f = async () => {
@@ -65,6 +66,7 @@ const Confirmation = ({
         });
       } catch (error) {
         console.error(error);
+        setError("Woops! something went wrong : "+error);
       }
       setLoading(false);
     };
@@ -95,6 +97,7 @@ const Confirmation = ({
       />
       <br />
       <br />
+      {error && <span style={{ color: "red" }}>{error}</span>}
       <div>
         <Form>
           <Form.Field>
