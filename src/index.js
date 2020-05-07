@@ -14,8 +14,8 @@ import UserListForm from "./pages/UserListForm";
 import IdUpload from "./pages/IdUpload";
 import Confirmation from "./pages/Confirmation";
 import Done from "./pages/Done";
-import Admin from "./pages/admin/Admin";
 import { db, auth } from "./firebase";
+import AdminContainer from "./pages/admin/AdminContainer";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -163,7 +163,7 @@ const App = () => {
   };
 
   return admin === "true" ? (
-    <Admin />
+    <AdminContainer />
   ) : (
     <Container>
       <Divider />
