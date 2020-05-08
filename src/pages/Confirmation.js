@@ -8,8 +8,9 @@ const Confirmation = ({
   guestID,
   guestName,
   setLoading,
+  userID,
   done
-  
+
 }) => {
   const [booking, setBooking] = useState({
     id: "",
@@ -66,7 +67,7 @@ const Confirmation = ({
         });
       } catch (error) {
         console.error(error);
-        setError("Woops! something went wrong : "+error);
+        setError("Woops! something went wrong : " + error);
       }
       setLoading(false);
     };
@@ -75,13 +76,14 @@ const Confirmation = ({
 
   const handleCheckIn = async () => {
     try {
+    
       setLoading(true);
       await db
         .collection("Property")
         .doc(propertyID)
         .collection("Guest")
         .doc(guestID)
-        .update({ checkedin: true });
+        .update({ checkedin: true, userID: userID });
     } catch (err) {
       console.log("Confirmation.js Line 78" + err);
     }

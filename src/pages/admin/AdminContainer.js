@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Admin from "./Admin";
+import { auth } from "./../../firebase";
 
 export const AdminContainer = () => {
 
@@ -26,13 +27,16 @@ export const AdminContainer = () => {
 
         }
       });
+
       const f = async () => {
         console.log("trying to sign in");
         await auth.signInAnonymously();
       };
-      f();
-    } catch (error) {
 
+      f();
+
+    } catch (error) {
+      console.log("ERR " + error);
 
     }
 
