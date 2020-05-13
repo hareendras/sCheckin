@@ -191,10 +191,7 @@ const App = () => {
             {propertyName} self-checkin portal
         </Header>
           {renderUI()}
-
-          {/*  <UserListForm/> */}
-          {/* <IdUpload />  */}
-          {/*<Confirmation />*/}
+        
         </Segment>
         <Dimmer active={loading}>
           <Loader size="massive"></Loader>

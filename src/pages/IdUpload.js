@@ -64,6 +64,7 @@ const IdUpload = ({
         };
         imageCompressor.run(dataURL, compressorSettings, proceedCompressedImage);
       } catch (error) {
+        reject(error);
         setError("Woops something went wrong " + error)
       }
 
