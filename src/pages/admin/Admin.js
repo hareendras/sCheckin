@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container } from "semantic-ui-react";
+import { Container, Message } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import TopNav from "./TopNav";
 import PropertyContainer from "./PropertyContainer";
@@ -10,8 +10,8 @@ import UploadBookingsContainer from "./UploadBookingContainer";
 import ManagersContainer from "./ManagersContainer";
 import ProfileContainer from "./ProfileContainer";
 
-export const Admin = () => {
-  const [activePage, setActivePage] = useState("Property");
+const Admin = ({activePage, setActivePage, error}) => {  
+
 
   const renderActivePage = () => {
     console.log("Sdsds" + activePage);
@@ -37,6 +37,7 @@ export const Admin = () => {
   return (
     <Container className={"MainContainer"}>
       <TopNav setActivePage={setActivePage} />
+     {error && <Message error>Ooopzy</Message>}
       {renderActivePage()}
     </Container>
   );
