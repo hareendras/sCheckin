@@ -1,8 +1,10 @@
-import React, { useEffect, useState, Dimmer, Loader } from "react";
+import React, { useEffect, useState } from "react";
 import Admin from "./Admin";
+import { Dimmer, Loader } from "semantic-ui-react";
+
 import { auth, db } from "./../../firebase";
 
- const AdminContainer = () => {
+const AdminContainer = () => {
   //TODO parameter newUser is passed in url
   //Read that parameter
   //If newUser is true then we check if he is a returning user
@@ -86,10 +88,10 @@ import { auth, db } from "./../../firebase";
         setActivePage={setActivePage}
         error={error}
       />
-       <Dimmer active={loading}>
-          <Loader size="massive"></Loader>
-        </Dimmer>
-     </div>
+      <Dimmer active={loading}>
+        <Loader size="massive"></Loader>
+      </Dimmer>
+    </div>
   );
 };
 
