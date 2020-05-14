@@ -3,7 +3,6 @@ import Admin from "./Admin";
 import { auth } from "./../../firebase";
 
 export const AdminContainer = () => {
-
   //TODO parameter newUser is passed in url
   //Read that parameter
   //If newUser is true then we check if he is a returning user
@@ -14,38 +13,43 @@ export const AdminContainer = () => {
     try {
       let sp = new URLSearchParams(window.location.search);
       let newUser = sp.get("newUser");
-
-      auth.onAuthStateChanged(function (user) {
+     // let propertyID = sp.get("propertyID");
+      let admin = sp.get("admin");
+      let user = f();
+             
+      
+      
+      
+      auth.onAuthStateChanged((user)=>  {
         if (user) {
           // User is signed in.
-          var isAnonymous = user.isAnonymous;
-          var uid = user.uid;
+          let isAnonymous = user.isAnonymous;
+          let uid = user.uid;
+
+          //If the user is anonymous           
+      
+      
+      
+      
           console.log("User signed in +" + uid);
           // ...
-        } else {          // User is signed out.
-          // ...      
-
+        } else {
+          // User is signed out.
+          // ...
         }
       });
-
       const f = async () => {
         console.log("trying to sign in");
-        await auth.signInAnonymously();
-      };
-
-      f();
+        return (await auth.signInAnonymously());
+      };      
+    
 
     } catch (error) {
       console.log("ERR " + error);
-
     }
-
-
   }, []);
 
   return <Admin />;
-
-
 };
 
 export default AdminContainer;
