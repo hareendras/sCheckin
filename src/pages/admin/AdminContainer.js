@@ -11,7 +11,11 @@ const AdminContainer = () => {
   // If returning jst show property page of admin
   // If he is a new user show user profile page
 
-  const [currentProperty, setCurrentProperty] = useState({});
+  const [currentProperty, setCurrentProperty] = useState({
+    id: "",
+    code: "",
+    name: "",
+  });
   const [loading, setLoading] = useState(true);
   const [activePage, setActivePage] = useState("Property");
   const [error, setError] = useState("");
@@ -49,8 +53,9 @@ const AdminContainer = () => {
             if (!querySnap.empty) {
               // if he has, keep that in our state
               querySnap.forEach(function (doc) {
-                console.log(doc);
+                console.log("Property" + doc.data().name);
                 setCurrentProperty({
+                  id: doc.id,
                   code: doc.data().code,
                   name: doc.data().name,
                 });
@@ -64,7 +69,7 @@ const AdminContainer = () => {
               setLoading(false);
             }
           } else {
-            //he is a permenant user. Send to bookign page
+            //he is a permenant user. Send to booking page
             setActivePage("Bookings");
             setLoading(false);
           }
@@ -86,6 +91,8 @@ const AdminContainer = () => {
       <Admin
         activePage={activePage}
         setActivePage={setActivePage}
+        currentProperty={currentProperty}
+        setCurrentProperty={setCurrentProperty}
         error={error}
       />
       <Dimmer active={loading}>

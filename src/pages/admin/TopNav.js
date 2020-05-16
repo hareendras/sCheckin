@@ -5,7 +5,7 @@ import "semantic-ui-css/semantic.min.css";
 const TopNav = ({ setActivePage }) => {
   return (
     <Container>
-      <Header as="h3" content="EasyCheckin.com Admin app" textAlign="center" />
+      <Header as="h3" content="ezycheckin.com Admin app" textAlign="center" />
 
       <Menu stackable inverted >
         <Menu.Item>

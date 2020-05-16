@@ -43,3 +43,7 @@
   display: flex;
   justify-content: flex-end;  
 }
+
+.displayErrors input:invalid {
+  border-color: #f73772;
+}

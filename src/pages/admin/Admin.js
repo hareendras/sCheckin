@@ -9,15 +9,27 @@ import "./css/styles.css";
 import UploadBookingsContainer from "./UploadBookingContainer";
 import ManagersContainer from "./ManagersContainer";
 import ProfileContainer from "./ProfileContainer";
+import Property from "./Property";
 
-const Admin = ({activePage, setActivePage, error}) => {  
-
-
+const Admin = ({
+  activePage,
+  setActivePage,
+  currentProperty,
+  setCurrentProperty,
+  error,
+}) => {
   const renderActivePage = () => {
     console.log("Sdsds" + activePage);
     switch (activePage) {
       case "Property":
-        return <PropertyContainer />;
+        return (
+          <PropertyContainer>
+            <Property
+              currentProperty={currentProperty}
+              setCurrentProperty={setCurrentProperty}
+            />
+          </PropertyContainer>
+        );
       case "Bookings":
         return <BookingsContainer />;
       case "Guests":
@@ -37,7 +49,7 @@ const Admin = ({activePage, setActivePage, error}) => {
   return (
     <Container className={"MainContainer"}>
       <TopNav setActivePage={setActivePage} />
-     {error && <Message error>Ooopzy</Message>}
+      {error && <Message error>Ooopzy</Message>}
       {renderActivePage()}
     </Container>
   );

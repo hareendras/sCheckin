@@ -57,7 +57,8 @@ const App = () => {
         .collection("Property")
         .doc(propertyID)
         .collection("Guest")
-        .doc(guestID).get();
+        .doc(guestID)
+        .get();
       console.log("fetched userid " + fetchedUserId.data().userID);
       console.log("User id  " + userID);
       // If the current user is already a guest, skip id upload page
@@ -70,7 +71,6 @@ const App = () => {
       console.error("index.js line 91" + error);
       setError("Woops error occured!!! Please scan the QR code and try again");
     }
-
   }; ///////////
 
   // idUpload -- Guest
@@ -108,7 +108,6 @@ const App = () => {
           console.log("User signed in +" + uid);
           // ...
         } else {
-
         }
         // ...
       });
@@ -117,7 +116,10 @@ const App = () => {
         try {
           console.log("trying to sign in");
           await auth.signInAnonymously();
-          const snapshot = await db.collection("Property").doc(propertyID).get();
+          const snapshot = await db
+            .collection("Property")
+            .doc(propertyID)
+            .get();
           const data = snapshot.data();
           //console.log("NAME " + data.name);
           //console.log("CODE " + data.code);
@@ -127,9 +129,10 @@ const App = () => {
         } catch (err) {
           setLoading(false);
           console.error("index.js line 91" + err);
-          setError("Woops error occured!!! Please scan the QR code and try again");
+          setError(
+            "Woops error occured!!! Please scan the QR code and try again"
+          );
         }
-
       };
       f();
     }
@@ -184,20 +187,19 @@ const App = () => {
   return admin === "true" ? (
     <AdminContainer />
   ) : (
-      <Container>
-        <Divider />
-        <Segment size="massive">
-          <Header as="h1" textAlign="center">
-            {propertyName} self-checkin portal
+    <Container>
+      <Divider />
+      <Segment size="massive">
+        <Header as="h1" textAlign="center">
+          {propertyName} self-checkin portal
         </Header>
-          {renderUI()}
-        
-        </Segment>
-        <Dimmer active={loading}>
-          <Loader size="massive"></Loader>
-        </Dimmer>
-      </Container>
-    );
+        {renderUI()}
+      </Segment>
+      <Dimmer active={loading}>
+        <Loader size="massive"></Loader>
+      </Dimmer>
+    </Container>
+  );
 };
 
 const rootElement = document.getElementById("root");

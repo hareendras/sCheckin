@@ -1,9 +1,7 @@
 import React from "react";
-import Property from "./Property"
 
-const PropertyContainer = () => {
-    return(<Property/>);
-
+const PropertyContainer = ({ children }) => {
+  return children;
 };
 
 export default PropertyContainer;
