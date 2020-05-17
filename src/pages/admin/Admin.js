@@ -16,19 +16,23 @@ const Admin = ({
   setActivePage,
   currentProperty,
   setCurrentProperty,
-  error,
+  mainError,
+  mainSuccess,
+  setMainError,
+  setMainSuccess
+
 }) => {
   const renderActivePage = () => {
     console.log("Sdsds" + activePage);
     switch (activePage) {
       case "Property":
         return (
-          <PropertyContainer>
-            <Property
-              currentProperty={currentProperty}
-              setCurrentProperty={setCurrentProperty}
-            />
-          </PropertyContainer>
+          <Property
+            currentProperty={currentProperty}
+            setCurrentProperty={setCurrentProperty}
+            setMainError={setMainError}
+            setMainSuccess={setMainSuccess}            
+          />
         );
       case "Bookings":
         return <BookingsContainer />;
@@ -49,7 +53,8 @@ const Admin = ({
   return (
     <Container className={"MainContainer"}>
       <TopNav setActivePage={setActivePage} />
-      {error && <Message error>Ooopzy</Message>}
+      {mainError && <Message error>{mainError}</Message>}
+      {mainSuccess && <Message success>{mainSuccess}</Message>}
       {renderActivePage()}
     </Container>
   );

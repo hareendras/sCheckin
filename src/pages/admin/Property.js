@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Checkbox,
@@ -8,14 +8,57 @@ import {
   Label,
   Message,
   Header,
-  
+  setMainError
 } from "semantic-ui-react";
 import "./css/styles.css";
 import useFormInput from "./useFormInput";
+import { db } from "./../../firebase";
 
-const Property = ({ currentProperty, setCurrentProperty }) => {
+const Property = ({ currentProperty, setCurrentProperty, setMainError, setMainSuccess }) => {
+  //TODO add proper validations
+  const [formHasNoErrors, setFormHasNoErrors] = useState(true);
   const validatePropertyName = () => "";
-  const propertyName = useFormInput(currentProperty.name,validatePropertyName);
+
+
+  const propertyName = useFormInput(currentProperty.name, validatePropertyName);
+  const propertyAddres = useFormInput(currentProperty.address, validatePropertyName);
+  const propertyEmail = useFormInput(currentProperty.email, validatePropertyName);
+  const propertyPhone = useFormInput(currentProperty.phone, validatePropertyName);
+  const propertyCode = useFormInput(currentProperty.code, validatePropertyName);
+
+  const handlePropertyPageSubmit = async () => {
+    if (formHasNoErrors) {
+
+      try {
+        console.log("Handle propertyForm submit");
+        let currPropertyRef = db.collection("Property").doc(currentProperty.id);
+
+        await currPropertyRef.set({
+          name: propertyName.value,
+          address: propertyAddres.value,
+          email: propertyEmail.value,
+          code: propertyCode.value,
+          phone: propertyPhone.value
+        }, { merge: true });
+
+        setCurrentProperty({
+          id: currPropertyRef.id,
+          name: propertyName.value,
+          address: propertyAddres.value,
+          email: propertyEmail.value,
+          code: propertyCode.value,
+          phone: propertyPhone.value
+        });
+
+        setMainSuccess("Property details updated success.");
+
+      } catch (err) {
+        setMainError(err.message);
+      }
+    }
+  };
+
+
   return (
     <div className="propertyContainer">
       <div className="leftPusher">
@@ -40,25 +83,25 @@ const Property = ({ currentProperty, setCurrentProperty }) => {
             </Form.Field>
             <Form.Field>
               <label>Adress</label>
-              <input placeholder="Adress" />
+              <input placeholder="Adress" {...propertyAddres} />
             </Form.Field>
             <Form.Field>
               <label>E-mail</label>
-              <input placeholder="E-mail" />
+              <input placeholder="E-mail" {...propertyEmail} />
             </Form.Field>
             <Form.Field>
               <label>Phone</label>
-              <input placeholder="Phone" />
+              <input placeholder="Phone" {...propertyPhone} />
             </Form.Field>
             <Form.Field>
               <Label color={"yellow"}>Code</Label>
               <input
                 placeholder="Code"
-                {...useFormInput(currentProperty.code)}
+                {...propertyCode}
               />
             </Form.Field>
             <div className="propertyNameBtnSubmit">
-              <Button type="submit">Save</Button>{" "}
+              <Button type="submit" onClick={handlePropertyPageSubmit}>Save</Button>{" "}
             </div>
           </Form>
         </Segment>

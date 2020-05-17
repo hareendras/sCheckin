@@ -15,11 +15,15 @@ const AdminContainer = () => {
     id: "",
     code: "",
     name: "",
+    address: "",
+    email: "",
+    phone: ""
   });
   const [loading, setLoading] = useState(true);
   const [activePage, setActivePage] = useState("Property");
-  const [error, setError] = useState("");
-
+  const [mainError, setMainError] = useState("");
+  const [mainSuccess, setMainSuccess] = useState("");  
+  let user = ""
   useEffect(() => {
     try {
       let sp = new URLSearchParams(window.location.search);
@@ -32,7 +36,7 @@ const AdminContainer = () => {
         return await auth.signInAnonymously();
       };
 
-      let user = f();
+      user = f();
 
       auth.onAuthStateChanged(async (user) => {
         if (user) {
@@ -54,10 +58,16 @@ const AdminContainer = () => {
               // if he has, keep that in our state
               querySnap.forEach(function (doc) {
                 console.log("Property" + doc.data().name);
+                let property = doc.data();
                 setCurrentProperty({
+
                   id: doc.id,
-                  code: doc.data().code,
-                  name: doc.data().name,
+                  code: property.code,
+                  name: property.name,
+                  address: property.address,
+                  email: property.email,
+                  phone: property.phone
+
                 });
                 // and send him to register himself as a premanant user
                 setActivePage("Profile");
@@ -82,9 +92,14 @@ const AdminContainer = () => {
       });
     } catch (error) {
       console.log("ERR " + error);
-      setError(eror);
+      setMainError(eror);
+
     }
-  }, []);
+  }, [user]);
+
+  useEffect(() => {
+    setTimeout(() => setMainSuccess(""), 10000)
+  }, [mainSuccess]);
 
   return (
     <div>
@@ -93,7 +108,10 @@ const AdminContainer = () => {
         setActivePage={setActivePage}
         currentProperty={currentProperty}
         setCurrentProperty={setCurrentProperty}
-        error={error}
+        mainError={mainError}
+        mainSuccess={mainSuccess}
+        setMainError={setMainError}
+        setMainSuccess={setMainSuccess}        
       />
       <Dimmer active={loading}>
         <Loader size="massive"></Loader>
