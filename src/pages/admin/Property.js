@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import {
-  Button,
-  Checkbox,
+  Button,  
   Form,
-  Container,
   Segment,
   Label,
   Message,
@@ -26,19 +24,22 @@ const Property = ({ currentProperty, setCurrentProperty, setMainError, setMainSu
   const propertyPhone = useFormInput(currentProperty.phone, validatePropertyName);
   const propertyCode = useFormInput(currentProperty.code, validatePropertyName);
 
+
+
   const handlePropertyPageSubmit = async () => {
     if (formHasNoErrors) {
 
       try {
         console.log("Handle propertyForm submit");
-        let currPropertyRef = db.collection("Property").doc(currentProperty.id);
+        let currPropertyRef = currentProperty.id ? db.collection("Property").doc(currentProperty.id) : db.collection("Property").doc();
 
         await currPropertyRef.set({
           name: propertyName.value,
           address: propertyAddres.value,
           email: propertyEmail.value,
           code: propertyCode.value,
-          phone: propertyPhone.value
+          phone: propertyPhone.value,
+          admin_user: currentProperty.admin_user
         }, { merge: true });
 
         setCurrentProperty({
@@ -47,7 +48,8 @@ const Property = ({ currentProperty, setCurrentProperty, setMainError, setMainSu
           address: propertyAddres.value,
           email: propertyEmail.value,
           code: propertyCode.value,
-          phone: propertyPhone.value
+          phone: propertyPhone.value,
+          admin_user: currentProperty.admin_user
         });
 
         setMainSuccess("Property details updated success.");

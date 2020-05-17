@@ -22,7 +22,7 @@ const AdminContainer = () => {
   const [loading, setLoading] = useState(true);
   const [activePage, setActivePage] = useState("Property");
   const [mainError, setMainError] = useState("");
-  const [mainSuccess, setMainSuccess] = useState("");  
+  const [mainSuccess, setMainSuccess] = useState("");
   let user = ""
   useEffect(() => {
     try {
@@ -66,7 +66,8 @@ const AdminContainer = () => {
                   name: property.name,
                   address: property.address,
                   email: property.email,
-                  phone: property.phone
+                  phone: property.phone,
+                  admin_user: uid
 
                 });
                 // and send him to register himself as a premanant user
@@ -75,6 +76,10 @@ const AdminContainer = () => {
               });
             } else {
               // if he doesnt have property send him to property page
+              setCurrentProperty({             
+                admin_user: uid
+              });
+
               setActivePage("Property");
               setLoading(false);
             }
@@ -111,7 +116,7 @@ const AdminContainer = () => {
         mainError={mainError}
         mainSuccess={mainSuccess}
         setMainError={setMainError}
-        setMainSuccess={setMainSuccess}        
+        setMainSuccess={setMainSuccess}
       />
       <Dimmer active={loading}>
         <Loader size="massive"></Loader>
