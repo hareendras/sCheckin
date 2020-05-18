@@ -11,7 +11,27 @@ import {
   Header,
   Message,
   Input,
+  List,
+  Pagination,
 } from "semantic-ui-react";
+
+const Item = ({ item }) => {
+  return (
+    <List.Item>
+      <List.Content>
+        <List.Header as="a">Daniel Louise</List.Header>
+        <List.Description>
+          NIC: 852544520v Address: No 340 Dalupotha Negombo Phone: 0715249388
+          <List.Content floated="right">
+            <Icon link name="eye" />
+            <Icon link name="edit" />
+            <Icon link name="user delete" />
+          </List.Content>
+        </List.Description>
+      </List.Content>
+    </List.Item>
+  );
+};
 
 const Guests = () => {
   return (
@@ -21,7 +41,7 @@ const Guests = () => {
           compact
           info
           header="This is Guests page"
-          content="Here you can view Guests data. "
+          content="Here you can view Guests data. Guests who has most recent bookings will be listed here. Start typing in search box for searching by name, NIC or passport number."
         ></Message>
       </div>
 
@@ -40,52 +60,21 @@ const Guests = () => {
           </Form>
         </Segment>
         <Segment>
-          <Table celled>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Header</Table.HeaderCell>
-                <Table.HeaderCell>Header</Table.HeaderCell>
-                <Table.HeaderCell>Header</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-
-            <Table.Body>
-              <Table.Row>
-                <Table.Cell>First</Table.Cell>
-                <Table.Cell>Cell</Table.Cell>
-                <Table.Cell>Cell</Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>Cell</Table.Cell>
-                <Table.Cell>Cell</Table.Cell>
-                <Table.Cell>Cell</Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>Cell</Table.Cell>
-                <Table.Cell>Cell</Table.Cell>
-                <Table.Cell>Cell</Table.Cell>
-              </Table.Row>
-            </Table.Body>
-
-            <Table.Footer>
-              <Table.Row>
-                <Table.HeaderCell colSpan="3">
-                  <Menu floated="right" pagination>
-                    <Menu.Item as="a" icon>
-                      <Icon name="chevron left" />
-                    </Menu.Item>
-                    <Menu.Item as="a">1</Menu.Item>
-                    <Menu.Item as="a">2</Menu.Item>
-                    <Menu.Item as="a">3</Menu.Item>
-                    <Menu.Item as="a">4</Menu.Item>
-                    <Menu.Item as="a" icon>
-                      <Icon name="chevron right" />
-                    </Menu.Item>
-                  </Menu>
-                </Table.HeaderCell>
-              </Table.Row>
-            </Table.Footer>
-          </Table>
+          <List>
+            <Item />
+            <Item />
+            <Item />
+            <Item />
+            <Item />
+          </List>
+          <Pagination
+            defaultActivePage={1}
+            firstItem={null}
+            lastItem={null}
+            pointing
+            secondary
+            totalPages={3}
+          />
         </Segment>
       </div>
       <div className="rightPusher"></div>

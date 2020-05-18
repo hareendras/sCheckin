@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, Dimmer, Loader } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
-import {db,firebase} from "../firebase";
+import { db, firebase } from "../firebase";
 
 import styles from "../css/idUpload.css";
 
@@ -16,7 +16,7 @@ const WalkInForm = ({
   const [name, setName] = useState("");
   const [nights, setNights] = useState("");
   const [loading, setLoading] = useState(false);
-  
+
   const handleNameChange = (e) => {
     console.log(e.target.value);
     setName(e.target.value);
@@ -46,9 +46,7 @@ const WalkInForm = ({
       let today = new Date().toISOString().substring(0, 10);
       today = `${today} 00:00:00`;
       console.log(today);
-      const timestamp1 = firebase.firestore.Timestamp.fromDate(
-        new Date(today)
-      );
+      const timestamp1 = firebase.firestore.Timestamp.fromDate(new Date(today));
       guest = await db
         .collection("Property")
         .doc(propertyID)
@@ -64,7 +62,7 @@ const WalkInForm = ({
         .collection("Bookings")
         .add({
           nights: nights,
-          checkin_date: timestamp1,          
+          checkin_date: timestamp1,
           //need to handle price properly
           price_USD: 10,
           price_LKR: 2000,

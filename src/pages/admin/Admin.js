@@ -4,7 +4,7 @@ import "semantic-ui-css/semantic.min.css";
 import TopNav from "./TopNav";
 import PropertyContainer from "./PropertyContainer";
 import BookingsContainer from "./BookingsContainer";
-import GuestsContainer from "./GuestsContainer";
+import Guests from "./Guests";
 import "./css/styles.css";
 import UploadBookingsContainer from "./UploadBookingContainer";
 import ManagersContainer from "./ManagersContainer";
@@ -37,7 +37,7 @@ const Admin = ({
       case "Bookings":
         return <BookingsContainer />;
       case "Guests":
-        return <GuestsContainer />;
+        return <Guests/>;
       case "UploadBookings":
         return <UploadBookingsContainer />;
       case "Managers":
