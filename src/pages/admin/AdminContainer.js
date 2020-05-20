@@ -12,7 +12,7 @@ const AdminContainer = () => {
   // If he is a new user show user profile page
 
   const [currentProperty, setCurrentProperty] = useState({
-    id: "",
+    id: "id",
     code: "",
     name: "",
     address: "",
@@ -76,7 +76,8 @@ const AdminContainer = () => {
               });
             } else {
               // if he doesnt have property send him to property page
-              setCurrentProperty({             
+              setCurrentProperty({
+                id: "new",             
                 admin_user: uid
               });
 

@@ -34,6 +34,7 @@ const Guest = ({ guest }) => {
 };
 
 const Guests = ({ setMainError, currentProperty }) => {
+  console.log("property id in guests ", currentProperty.id);
   const [query, setQuery] = useState(
     db
       .collection("Property")
@@ -63,6 +64,8 @@ const Guests = ({ setMainError, currentProperty }) => {
             guestsList1.push({ id: doc.id, name: doc.data().name });
           });
           setGuestsList(guestsList1);
+        } else {
+          setGuestsList([]);
         }
       } catch (error) {
         setMainError(error);
@@ -70,6 +73,39 @@ const Guests = ({ setMainError, currentProperty }) => {
     };
     f();
   }, [query]);
+
+  const setSearchQuery = (e) => {
+    e.persist();
+    console.log(
+      "search string , property ",
+      e.target.value,
+      currentProperty.id
+    );
+    if (e.target.value == "") {
+
+      setQuery(
+        db
+          .collection("Property")
+          .doc(currentProperty.id)
+          .collection("Guest")
+          .orderBy("last_booking_date")
+          .limit(5)
+      );
+
+    } else {
+      setQuery(
+        db
+          .collection("Property")
+          .doc(currentProperty.id)
+          .collection("Guest")
+          .where("keywords", "array-contains", e.target.value)
+          .orderBy("last_booking_date")
+          .limit(5)
+      );
+    }
+  };
+
+  const setSearchQueryDelayed = debounce(setSearchQuery,500);
 
   return (
     <div className="propertyContainer">
@@ -91,6 +127,7 @@ const Guests = ({ setMainError, currentProperty }) => {
               <Input
                 icon={<Icon name="search" inverted circular link />}
                 placeholder="Search..."
+                onChange={ setSearchQueryDelayed}
               />
             </Form.Field>
           </Form.Group>
@@ -117,4 +154,18 @@ const Guests = ({ setMainError, currentProperty }) => {
   );
 };
 
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
 export default Guests;
