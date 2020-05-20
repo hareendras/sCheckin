@@ -19,8 +19,7 @@ const Admin = ({
   mainError,
   mainSuccess,
   setMainError,
-  setMainSuccess
-
+  setMainSuccess,
 }) => {
   const renderActivePage = () => {
     console.log("Sdsds" + activePage);
@@ -31,13 +30,18 @@ const Admin = ({
             currentProperty={currentProperty}
             setCurrentProperty={setCurrentProperty}
             setMainError={setMainError}
-            setMainSuccess={setMainSuccess}            
+            setMainSuccess={setMainSuccess}
           />
         );
       case "Bookings":
         return <BookingsContainer />;
       case "Guests":
-        return <Guests/>;
+        return (
+          <Guests
+            setMainError={setMainError}
+            currentProperty={currentProperty}
+          />
+        );
       case "UploadBookings":
         return <UploadBookingsContainer />;
       case "Managers":

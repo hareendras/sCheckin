@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "./DatePicker";
 import {
   Form,
@@ -14,14 +14,14 @@ import {
   List,
   Pagination,
 } from "semantic-ui-react";
+import { db } from "./../../firebase";
 
-const Item = ({ item }) => {
+const Guest = ({ guest }) => {
   return (
     <List.Item>
       <List.Content>
-        <List.Header as="a">Daniel Louise</List.Header>
+        <List.Header as="a">{guest.name}</List.Header>
         <List.Description>
-          NIC: 852544520v Address: No 340 Dalupotha Negombo Phone: 0715249388
           <List.Content floated="right">
             <Icon link name="eye" />
             <Icon link name="edit" />
@@ -33,7 +33,44 @@ const Item = ({ item }) => {
   );
 };
 
-const Guests = () => {
+const Guests = ({ setMainError, currentProperty }) => {
+  const [query, setQuery] = useState(
+    db
+      .collection("Property")
+      .doc(currentProperty.id)
+      .collection("Guest")
+      .orderBy("last_booking_date")
+      .limit(5)
+  );
+  const [firstVisibleDoc, setFirstVisibleDoc] = useState({});
+  const [lastVisibleDoc, setLastVisibleDoc] = useState({});
+  const [guestsList, setGuestsList] = useState([]);
+
+  useEffect(() => {
+    const f = async () => {
+      try {
+        console.log("above to fire query");
+        console.log("current proeprty", currentProperty.id);
+        let docSnapshots = await query.get();
+        console.log("is empty" + docSnapshots.empty);
+
+        if (!docSnapshots.empty) {
+          let guestsList1 = [];
+          setLastVisibleDoc(docSnapshots.docs[docSnapshots.docs.length - 1]);
+          setFirstVisibleDoc(docSnapshots.docs[0]);
+          docSnapshots.forEach((doc) => {
+            console.log(doc);
+            guestsList1.push({ id: doc.id, name: doc.data().name });
+          });
+          setGuestsList(guestsList1);
+        }
+      } catch (error) {
+        setMainError(error);
+      }
+    };
+    f();
+  }, [query]);
+
   return (
     <div className="propertyContainer">
       <div className="leftPusher">
@@ -47,25 +84,23 @@ const Guests = () => {
 
       <div className="propertyForm">
         <Header content="Guests" />
-        <Segment>
-          <Form>
-            <Form.Group widths="equal">
-              <Form.Field>
-                <Input
-                  icon={<Icon name="search" inverted circular link />}
-                  placeholder="Search..."
-                />
-              </Form.Field>
-            </Form.Group>
-          </Form>
-        </Segment>
+
+        <Form>
+          <Form.Group widths="equal">
+            <Form.Field>
+              <Input
+                icon={<Icon name="search" inverted circular link />}
+                placeholder="Search..."
+              />
+            </Form.Field>
+          </Form.Group>
+        </Form>
+
         <Segment>
           <List>
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
+            {guestsList.map((guest) => (
+              <Guest key={guest.id} guest={guest} />
+            ))}
           </List>
           <Pagination
             defaultActivePage={1}
