@@ -34,7 +34,6 @@ const Guest = ({ guest }) => {
 };
 
 const Guests = ({ setMainError, currentProperty }) => {
-  console.log("property id in guests ", currentProperty.id);
   const [query, setQuery] = useState(
     db
       .collection("Property")
@@ -50,8 +49,6 @@ const Guests = ({ setMainError, currentProperty }) => {
   useEffect(() => {
     const f = async () => {
       try {
-        console.log("above to fire query");
-        console.log("current proeprty", currentProperty.id);
         let docSnapshots = await query.get();
         console.log("is empty" + docSnapshots.empty);
 
@@ -60,7 +57,6 @@ const Guests = ({ setMainError, currentProperty }) => {
           setLastVisibleDoc(docSnapshots.docs[docSnapshots.docs.length - 1]);
           setFirstVisibleDoc(docSnapshots.docs[0]);
           docSnapshots.forEach((doc) => {
-            console.log(doc);
             guestsList1.push({ id: doc.id, name: doc.data().name });
           });
           setGuestsList(guestsList1);
@@ -74,15 +70,13 @@ const Guests = ({ setMainError, currentProperty }) => {
     f();
   }, [query]);
 
-  const setSearchQuery = (e) => {
-    e.persist();
+  const setSearchQueryDelayed = debounce((text) => {
     console.log(
-      "search string , property ",
-      e.target.value,
+      "search string , property query fired ",
+      text,
       currentProperty.id
     );
-    if (e.target.value == "") {
-
+    if (text == "") {
       setQuery(
         db
           .collection("Property")
@@ -91,21 +85,18 @@ const Guests = ({ setMainError, currentProperty }) => {
           .orderBy("last_booking_date")
           .limit(5)
       );
-
     } else {
       setQuery(
         db
           .collection("Property")
           .doc(currentProperty.id)
           .collection("Guest")
-          .where("keywords", "array-contains", e.target.value)
+          .where("keywords", "array-contains", text)
           .orderBy("last_booking_date")
           .limit(5)
       );
     }
-  };
-
-  const setSearchQueryDelayed = debounce(setSearchQuery,500);
+  }, 500);
 
   return (
     <div className="propertyContainer">
@@ -127,7 +118,9 @@ const Guests = ({ setMainError, currentProperty }) => {
               <Input
                 icon={<Icon name="search" inverted circular link />}
                 placeholder="Search..."
-                onChange={ setSearchQueryDelayed}
+                onChange={(e) => {
+                  setSearchQueryDelayed(e.target.value);
+                }}
               />
             </Form.Field>
           </Form.Group>
@@ -155,17 +148,18 @@ const Guests = ({ setMainError, currentProperty }) => {
 };
 
 function debounce(func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		var later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		};
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
-};
+  var timeout;
+  return function () {
+    var context = this,
+      args = arguments;
+    var later = function () {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}
 export default Guests;
