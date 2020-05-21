@@ -12,26 +12,11 @@ import {
   Message,
   Input,
   List,
-  Pagination,
+  Button,
 } from "semantic-ui-react";
 import { db } from "./../../firebase";
-
-const Guest = ({ guest }) => {
-  return (
-    <List.Item>
-      <List.Content>
-        <List.Header as="a">{guest.name}</List.Header>
-        <List.Description>
-          <List.Content floated="right">
-            <Icon link name="eye" />
-            <Icon link name="edit" />
-            <Icon link name="user delete" />
-          </List.Content>
-        </List.Description>
-      </List.Content>
-    </List.Item>
-  );
-};
+import IdViewer from "./IdViewer"
+import Guest from "./Guest"
 
 const Guests = ({ setMainError, currentProperty }) => {
   const [query, setQuery] = useState(
@@ -45,6 +30,9 @@ const Guests = ({ setMainError, currentProperty }) => {
   const [firstVisibleDoc, setFirstVisibleDoc] = useState({});
   const [lastVisibleDoc, setLastVisibleDoc] = useState({});
   const [guestsList, setGuestsList] = useState([]);
+  const [guestCountReturnedByQuery, setguestCountReturnedByQuery] = useState(0);
+
+  const [showIdViewer, setShowIdViewer] = useState(false);
 
   useEffect(() => {
     const f = async () => {
@@ -56,12 +44,14 @@ const Guests = ({ setMainError, currentProperty }) => {
           let guestsList1 = [];
           setLastVisibleDoc(docSnapshots.docs[docSnapshots.docs.length - 1]);
           setFirstVisibleDoc(docSnapshots.docs[0]);
+          setguestCountReturnedByQuery(docSnapshots.docs.length);
+
           docSnapshots.forEach((doc) => {
             guestsList1.push({ id: doc.id, name: doc.data().name });
           });
           setGuestsList(guestsList1);
         } else {
-          setGuestsList([]);
+          setguestCountReturnedByQuery(0);
         }
       } catch (error) {
         setMainError(error);
@@ -98,6 +88,37 @@ const Guests = ({ setMainError, currentProperty }) => {
     }
   }, 500);
 
+  const handlePrev = () => {
+    console.log("Prev");
+    setQuery(
+      db
+        .collection("Property")
+        .doc(currentProperty.id)
+        .collection("Guest")
+        .orderBy("last_booking_date")
+        .endBefore(firstVisibleDoc)
+        .limitToLast(5)
+    );
+  };
+
+  const handleNext = () => {
+    console.log("Next");
+    setQuery(
+      db
+        .collection("Property")
+        .doc(currentProperty.id)
+        .collection("Guest")
+        .orderBy("last_booking_date")
+        .startAfter(lastVisibleDoc)
+        .limit(5)
+    );
+  };
+  const handleBlur = () => {
+    console.log("Blur");
+  };
+
+
+  
   return (
     <div className="propertyContainer">
       <div className="leftPusher">
@@ -118,6 +139,7 @@ const Guests = ({ setMainError, currentProperty }) => {
               <Input
                 icon={<Icon name="search" inverted circular link />}
                 placeholder="Search..."
+                onBlur={handleBlur}
                 onChange={(e) => {
                   setSearchQueryDelayed(e.target.value);
                 }}
@@ -128,26 +150,38 @@ const Guests = ({ setMainError, currentProperty }) => {
 
         <Segment>
           <List>
-            {guestsList.map((guest) => (
-              <Guest key={guest.id} guest={guest} />
-            ))}
+            {guestCountReturnedByQuery > 0
+              ? guestsList.map((guest) => (
+                  <Guest key={guest.id} guest={guest} setShowIdViewer={setShowIdViewer} />
+                ))
+              : "No records found!"}
           </List>
-          <Pagination
-            defaultActivePage={1}
-            firstItem={null}
-            lastItem={null}
-            pointing
-            secondary
-            totalPages={3}
-          />
+          <div>
+            <Button.Group basic size="mini">
+              <Button
+                compact
+                size="mini"
+                icon="left chevron"
+                onClick={handlePrev}
+              />
+
+              <Button
+                compact
+                size="mini"
+                icon="right chevron"
+                onClick={handleNext}
+              />
+            </Button.Group>
+          </div>
         </Segment>
+        <IdViewer showIdViewer={showIdViewer} setShowIdViewer={setShowIdViewer}/>
       </div>
       <div className="rightPusher"></div>
     </div>
   );
 };
 
-function debounce(func, wait, immediate) {
+const debounce = (func, wait, immediate) => {
   var timeout;
   return function () {
     var context = this,
@@ -161,5 +195,5 @@ function debounce(func, wait, immediate) {
     timeout = setTimeout(later, wait);
     if (callNow) func.apply(context, args);
   };
-}
+};
 export default Guests;
