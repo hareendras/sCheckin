@@ -1,22 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Header, Icon, Modal, Image } from "semantic-ui-react";
+import { storage } from "./../../firebase";
 
-const IdViewer = ({ showIdViewer, setShowIdViewer }) => {
+const IdViewer = ({
+  showIdViewer,
+  setShowIdViewer,
+  currentPropertyId,
+  currentlySelectedGuestId,
+}) => {
+  const [imgData, setImgData] = useState();
+  useEffect(() => {
+    const f = async () => {
+      console.log(
+        "Trying path ",
+        `${currentPropertyId}/${currentlySelectedGuestId}.jpg`
+      );
+      let imgRef = storage.ref(
+        `${currentPropertyId}/${currentlySelectedGuestId}.jpg`
+      );
+      let imgData = await imgRef.getDownloadURL();
+      console.log("IMAGE DATA ", imgData);
+      setImgData(imgData);
+    };
+    f();
+ 
+  }, []);
+
   const closeMe = () => {
     setShowIdViewer(false);
   };
+
   return (
     <Modal open={showIdViewer} closeIcon onClose={closeMe}>
       <Header icon="archive" content="Archive Old Messages" />
       <Modal.Content>
         <p>
-          Your inbox is getting full, would you like us to enable automatic
-          archiving of old messages?
+          Property {currentPropertyId} Guest {currentlySelectedGuestId} imgData{" "}
+          {imgData}
         </p>
-        <Image
-          src="https://react.semantic-ui.com/images/wireframe/image.png"
-          fluid
-        />
+        <Image src={imgData} />
       </Modal.Content>
     </Modal>
   );

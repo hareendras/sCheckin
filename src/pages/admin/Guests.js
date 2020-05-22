@@ -15,8 +15,8 @@ import {
   Button,
 } from "semantic-ui-react";
 import { db } from "./../../firebase";
-import IdViewer from "./IdViewer"
-import Guest from "./Guest"
+import IdViewer from "./IdViewer";
+import Guest from "./Guest";
 
 const Guests = ({ setMainError, currentProperty }) => {
   const [query, setQuery] = useState(
@@ -31,8 +31,8 @@ const Guests = ({ setMainError, currentProperty }) => {
   const [lastVisibleDoc, setLastVisibleDoc] = useState({});
   const [guestsList, setGuestsList] = useState([]);
   const [guestCountReturnedByQuery, setguestCountReturnedByQuery] = useState(0);
-
   const [showIdViewer, setShowIdViewer] = useState(false);
+  const [currentlySelectedGuestId, setcurrentlySelectedGuestId] = useState("");
 
   useEffect(() => {
     const f = async () => {
@@ -117,8 +117,6 @@ const Guests = ({ setMainError, currentProperty }) => {
     console.log("Blur");
   };
 
-
-  
   return (
     <div className="propertyContainer">
       <div className="leftPusher">
@@ -152,7 +150,12 @@ const Guests = ({ setMainError, currentProperty }) => {
           <List>
             {guestCountReturnedByQuery > 0
               ? guestsList.map((guest) => (
-                  <Guest key={guest.id} guest={guest} setShowIdViewer={setShowIdViewer} />
+                  <Guest
+                    key={guest.id}
+                    guest={guest}
+                    setShowIdViewer={setShowIdViewer}
+                    setcurrentlySelectedGuestId={setcurrentlySelectedGuestId}
+                  />
                 ))
               : "No records found!"}
           </List>
@@ -174,7 +177,12 @@ const Guests = ({ setMainError, currentProperty }) => {
             </Button.Group>
           </div>
         </Segment>
-        <IdViewer showIdViewer={showIdViewer} setShowIdViewer={setShowIdViewer}/>
+        <IdViewer
+          showIdViewer={showIdViewer}
+          setShowIdViewer={setShowIdViewer}
+          currentPropertyId={currentProperty.id}
+          currentlySelectedGuestId={currentlySelectedGuestId}
+        />
       </div>
       <div className="rightPusher"></div>
     </div>
@@ -197,3 +205,4 @@ const debounce = (func, wait, immediate) => {
   };
 };
 export default Guests;
+[];

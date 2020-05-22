@@ -1,11 +1,11 @@
 import React from "react";
-import {List,Icon} from "semantic-ui-react"
+import { List, Icon } from "semantic-ui-react";
 
-const Guest = ({ guest, setShowIdViewer }) => {
-
-    const bringUpIDView = () =>{
-        setShowIdViewer(true);
-    }
+const Guest = ({ guest, setShowIdViewer, setcurrentlySelectedGuestId }) => {
+  const bringUpIDView = () => {
+    setcurrentlySelectedGuestId(guest.id);
+    setShowIdViewer(true);
+  };
   return (
     <List.Item>
       <List.Content>
