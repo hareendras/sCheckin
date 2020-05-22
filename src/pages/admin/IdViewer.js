@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Button, Header, Icon, Modal, Image } from "semantic-ui-react";
-import { storage } from "./../../firebase";
+
 
 const IdViewer = ({
   showIdViewer,
   setShowIdViewer,
-  currentPropertyId,
-  currentlySelectedGuestId,
+  imgData
+
 }) => {
-  const [imgData, setImgData] = useState();
-  useEffect(() => {
+  
+  /*useEffect(() => {
     const f = async () => {
       console.log(
         "Trying path ",
@@ -24,7 +24,7 @@ const IdViewer = ({
     };
     f();
  
-  }, []);
+  }, []); */
 
   const closeMe = () => {
     setShowIdViewer(false);
@@ -32,11 +32,10 @@ const IdViewer = ({
 
   return (
     <Modal open={showIdViewer} closeIcon onClose={closeMe}>
-      <Header icon="archive" content="Archive Old Messages" />
+      <Header icon="id card" content="ID Image" />
       <Modal.Content>
         <p>
-          Property {currentPropertyId} Guest {currentlySelectedGuestId} imgData{" "}
-          {imgData}
+       ID Image
         </p>
         <Image src={imgData} />
       </Modal.Content>

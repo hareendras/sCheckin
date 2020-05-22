@@ -31,8 +31,8 @@ const Guests = ({ setMainError, currentProperty }) => {
   const [lastVisibleDoc, setLastVisibleDoc] = useState({});
   const [guestsList, setGuestsList] = useState([]);
   const [guestCountReturnedByQuery, setguestCountReturnedByQuery] = useState(0);
-  const [showIdViewer, setShowIdViewer] = useState(false);
-  const [currentlySelectedGuestId, setcurrentlySelectedGuestId] = useState("");
+  const [showIdViewer, setShowIdViewer] = useState(false);  
+  const [imgData, setImgData] = useState();
 
   useEffect(() => {
     const f = async () => {
@@ -153,8 +153,10 @@ const Guests = ({ setMainError, currentProperty }) => {
                   <Guest
                     key={guest.id}
                     guest={guest}
-                    setShowIdViewer={setShowIdViewer}
-                    setcurrentlySelectedGuestId={setcurrentlySelectedGuestId}
+                    setShowIdViewer={setShowIdViewer}               
+                    setImgData={setImgData}
+                    currentProperty={currentProperty}
+              
                   />
                 ))
               : "No records found!"}
@@ -180,8 +182,7 @@ const Guests = ({ setMainError, currentProperty }) => {
         <IdViewer
           showIdViewer={showIdViewer}
           setShowIdViewer={setShowIdViewer}
-          currentPropertyId={currentProperty.id}
-          currentlySelectedGuestId={currentlySelectedGuestId}
+          imgData={imgData}         
         />
       </div>
       <div className="rightPusher"></div>
