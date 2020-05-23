@@ -9,22 +9,6 @@ const IdViewer = ({
 
 }) => {
   
-  /*useEffect(() => {
-    const f = async () => {
-      console.log(
-        "Trying path ",
-        `${currentPropertyId}/${currentlySelectedGuestId}.jpg`
-      );
-      let imgRef = storage.ref(
-        `${currentPropertyId}/${currentlySelectedGuestId}.jpg`
-      );
-      let imgData = await imgRef.getDownloadURL();
-      console.log("IMAGE DATA ", imgData);
-      setImgData(imgData);
-    };
-    f();
- 
-  }, []); */
 
   const closeMe = () => {
     setShowIdViewer(false);

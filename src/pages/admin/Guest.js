@@ -2,9 +2,10 @@ import React from "react";
 import { List, Icon } from "semantic-ui-react";
 import { storage } from "./../../firebase";
 
-const Guest = ({ guest, currentProperty, setImgData, setShowIdViewer }) => {
+const Guest = ({ guest, currentProperty, setImgData, setShowIdViewer,setMainInfo }) => {
 
   const bringUpIDView = async (guestid) => {
+    try{
     let imgRef = storage.ref(
       `${currentProperty.id}/${guestid}.jpg`
     );
@@ -12,7 +13,9 @@ const Guest = ({ guest, currentProperty, setImgData, setShowIdViewer }) => {
     console.log("IMAGE DATA ", imgData);
     setShowIdViewer(true);
     setImgData(imgData);
-    
+    }catch (error){
+      setMainInfo("No id image available for that guest");
+    }
   };
   return (
     <List.Item>

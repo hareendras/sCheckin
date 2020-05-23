@@ -20,6 +20,8 @@ const Admin = ({
   mainSuccess,
   setMainError,
   setMainSuccess,
+  mainInfo,
+  setMainInfo
 }) => {
   const renderActivePage = () => {
     console.log("Sdsds" + activePage);
@@ -39,7 +41,9 @@ const Admin = ({
         return (
           <Guests
             setMainError={setMainError}
+            setMainInfo={setMainInfo}
             currentProperty={currentProperty}
+            setMainInfo={setMainInfo}
           />
         );
       case "UploadBookings":
@@ -59,6 +63,7 @@ const Admin = ({
       <TopNav setActivePage={setActivePage} />
       {mainError && <Message error>{mainError}</Message>}
       {mainSuccess && <Message success>{mainSuccess}</Message>}
+      {mainInfo && <Message warning>{mainInfo}</Message>}
       {renderActivePage()}
     </Container>
   );

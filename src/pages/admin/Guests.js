@@ -18,7 +18,7 @@ import { db } from "./../../firebase";
 import IdViewer from "./IdViewer";
 import Guest from "./Guest";
 
-const Guests = ({ setMainError, currentProperty }) => {
+const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
   const [query, setQuery] = useState(
     db
       .collection("Property")
@@ -31,7 +31,7 @@ const Guests = ({ setMainError, currentProperty }) => {
   const [lastVisibleDoc, setLastVisibleDoc] = useState({});
   const [guestsList, setGuestsList] = useState([]);
   const [guestCountReturnedByQuery, setguestCountReturnedByQuery] = useState(0);
-  const [showIdViewer, setShowIdViewer] = useState(false);  
+  const [showIdViewer, setShowIdViewer] = useState(false);
   const [imgData, setImgData] = useState();
 
   useEffect(() => {
@@ -40,21 +40,21 @@ const Guests = ({ setMainError, currentProperty }) => {
         let docSnapshots = await query.get();
         console.log("is empty" + docSnapshots.empty);
 
-        if (!docSnapshots.empty) {
-          let guestsList1 = [];
-          setLastVisibleDoc(docSnapshots.docs[docSnapshots.docs.length - 1]);
-          setFirstVisibleDoc(docSnapshots.docs[0]);
-          setguestCountReturnedByQuery(docSnapshots.docs.length);
+        //    if (!docSnapshots.empty) {
+        let guestsList1 = [];
+        setLastVisibleDoc(docSnapshots.docs[docSnapshots.docs.length - 1]);
+        setFirstVisibleDoc(docSnapshots.docs[0]);
+        setguestCountReturnedByQuery(docSnapshots.docs.length);
 
-          docSnapshots.forEach((doc) => {
-            guestsList1.push({ id: doc.id, name: doc.data().name });
-          });
-          setGuestsList(guestsList1);
-        } else {
-          setguestCountReturnedByQuery(0);
-        }
-      } catch (error) {
-        setMainError(error);
+        docSnapshots.forEach((doc) => {
+          guestsList1.push({ id: doc.id, name: doc.data().name });
+        });
+        setGuestsList(guestsList1);
+        //   } else {
+        //   setguestCountReturnedByQuery(0);
+        //}
+      } catch (error) {        
+        setguestCountReturnedByQuery(docSnapshots.docs.length);        
       }
     };
     f();
@@ -153,10 +153,10 @@ const Guests = ({ setMainError, currentProperty }) => {
                   <Guest
                     key={guest.id}
                     guest={guest}
-                    setShowIdViewer={setShowIdViewer}               
+                    setShowIdViewer={setShowIdViewer}
                     setImgData={setImgData}
                     currentProperty={currentProperty}
-              
+                    setMainInfo={setMainInfo}
                   />
                 ))
               : "No records found!"}
@@ -182,7 +182,7 @@ const Guests = ({ setMainError, currentProperty }) => {
         <IdViewer
           showIdViewer={showIdViewer}
           setShowIdViewer={setShowIdViewer}
-          imgData={imgData}         
+          imgData={imgData}
         />
       </div>
       <div className="rightPusher"></div>

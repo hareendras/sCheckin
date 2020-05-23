@@ -23,6 +23,7 @@ const AdminContainer = () => {
   const [activePage, setActivePage] = useState("Property");
   const [mainError, setMainError] = useState("");
   const [mainSuccess, setMainSuccess] = useState("");
+  const [mainInfo, setMainInfo]= useState("");
   let user = ""
   useEffect(() => {
     try {
@@ -106,6 +107,9 @@ const AdminContainer = () => {
   useEffect(() => {
     setTimeout(() => setMainSuccess(""), 10000)
   }, [mainSuccess]);
+  useEffect(() => {
+    setTimeout(() => setMainInfo(""), 5000)
+  }, [mainInfo]);
 
   return (
     <div>
@@ -118,6 +122,8 @@ const AdminContainer = () => {
         mainSuccess={mainSuccess}
         setMainError={setMainError}
         setMainSuccess={setMainSuccess}
+        mainInfo={mainInfo}
+        setMainInfo={setMainInfo}
       />
       <Dimmer active={loading}>
         <Loader size="massive"></Loader>
