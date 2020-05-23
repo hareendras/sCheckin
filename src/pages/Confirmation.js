@@ -23,13 +23,9 @@ const Confirmation = ({
   console.log("confirmation screen" + guestID, propertyID);
   useEffect(() => {
     const f = async () => {
-      let today = new Date().toISOString().substring(0, 10);
-      today = `${today} 00:00:00`;
-      console.log(today);
+
       try {
-        const todayDate = firebase.firestore.Timestamp.fromDate(
-          new Date(today)
-        );
+        let todayWithoutTime = new Date(new Date().setHours(0, 0, 0, 0));    
         console.log("propertyID " + propertyID);
         console.log("guestID " + guestID);
         setLoading(true);
@@ -40,7 +36,7 @@ const Confirmation = ({
           .collection("Guest")
           .doc(guestID)
           .collection("Bookings")
-          .where("checkin_date", "==", todayDate)
+          .where("checkin_date", "==", todayWithoutTime)
           .get();
         console.log("Confirmation qs " + querySnap);
 

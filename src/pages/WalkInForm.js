@@ -43,15 +43,12 @@ const WalkInForm = ({
 
     setLoading(true);
     try {
-      let today = new Date().toISOString().substring(0, 10);
-      today = `${today} 00:00:00`;
-      console.log(today);
-      const timestamp1 = firebase.firestore.Timestamp.fromDate(new Date(today));
+      let todayWithoutTime = new Date(new Date().setHours(0, 0, 0, 0));
       guest = await db
         .collection("Property")
         .doc(propertyID)
         .collection("Guest")
-        .add({ name: name, last_booking_date: timestamp1 });
+        .add({ name: name, last_booking_date: todayWithoutTime });
       console.log("Guest created " + guest.id);
 
       booking = await db
@@ -62,7 +59,7 @@ const WalkInForm = ({
         .collection("Bookings")
         .add({
           nights: nights,
-          checkin_date: timestamp1,
+          checkin_date: todayWithoutTime,
           //need to handle price properly
           price_USD: 10,
           price_LKR: 2000,

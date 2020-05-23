@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card } from "semantic-ui-react";
 import MessageHeading from "../../src/components/MessageHeading";
 import WalkInForm from "./WalkInForm";
-import {db,firebase} from "../firebase";
-
+import { db, firebase } from "../firebase";
 
 const UserListForm = ({ userOnClick, propertyID, setLoading }) => {
   const [guests, setGuests] = useState([]);
@@ -14,21 +13,14 @@ const UserListForm = ({ userOnClick, propertyID, setLoading }) => {
     // console.log("Property ID >>" + propertyID);
     setLoading(true);
     const f = async () => {
-      console.log("User list fetch");
-      let today = new Date().toISOString().substring(0, 10);
-      today = `${today} 00:00:00`;
-      console.log(today);
       try {
-        const todayDate = firebase.firestore.Timestamp.fromDate(
-          new Date(today)
-        );
-
+        let todayWithoutTime = new Date(new Date().setHours(0, 0, 0, 0));         
         let guestList = [];
         let querySnap = await db
           .collection("Property")
           .doc(propertyID)
           .collection("Guest")
-          .where("last_booking_date", "==", todayDate)
+          .where("last_booking_date", "==", todayWithoutTime)
           .where("checkedin", "==", false)
           .get();
         querySnap.forEach(function (doc) {
@@ -38,10 +30,10 @@ const UserListForm = ({ userOnClick, propertyID, setLoading }) => {
 
         setGuests(guestList);
         setLoading(false);
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
       } catch (error) {
         console.error("UserListForm Line 42" + error);
-        setError("Woops something went wrong :"+ error);
+        setError("Woops something went wrong :" + error);
         setLoading(false);
       }
     };
@@ -59,7 +51,7 @@ const UserListForm = ({ userOnClick, propertyID, setLoading }) => {
 
   const closeWorkingForm = () => {
     setWalkInFormOpen(false);
-  }
+  };
   return (
     <div>
       <MessageHeading main="Please tap on your name to begin. For walk ins please tap Walk-in option" />
