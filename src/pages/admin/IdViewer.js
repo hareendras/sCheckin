@@ -1,27 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Button, Header, Icon, Modal, Image } from "semantic-ui-react";
 
-
-const IdViewer = ({
-  showIdViewer,
-  setShowIdViewer,
-  imgData
-
-}) => {
-  
-
+const IdViewer = ({ showIdViewer, setShowIdViewer, imgData }) => {
   const closeMe = () => {
     setShowIdViewer(false);
   };
 
   return (
-    <Modal open={showIdViewer} closeIcon onClose={closeMe}>
+    <Modal open={showIdViewer} closeIcon onClose={closeMe} size="mini">
       <Header icon="id card" content="ID Image" />
-      <Modal.Content>
-        <p>
-       ID Image
-        </p>
-        <Image src={imgData} />
+      <Modal.Content image>
+        <Image wrapped size="medium" src={imgData} />
+      
       </Modal.Content>
     </Modal>
   );

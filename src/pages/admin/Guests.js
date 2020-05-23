@@ -53,8 +53,8 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
         //   } else {
         //   setguestCountReturnedByQuery(0);
         //}
-      } catch (error) {        
-        setguestCountReturnedByQuery(docSnapshots.docs.length);        
+      } catch (error) {
+        setguestCountReturnedByQuery(docSnapshots.docs.length);
       }
     };
     f();
@@ -89,29 +89,51 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
   }, 500);
 
   const handlePrev = () => {
-    console.log("Prev");
-    setQuery(
-      db
-        .collection("Property")
-        .doc(currentProperty.id)
-        .collection("Guest")
-        .orderBy("last_booking_date")
-        .endBefore(firstVisibleDoc)
-        .limitToLast(5)
-    );
+    if (firstVisibleDoc) {
+      console.log("Prev");
+      setQuery(
+        db
+          .collection("Property")
+          .doc(currentProperty.id)
+          .collection("Guest")
+          .orderBy("last_booking_date")
+          .endBefore(firstVisibleDoc)
+          .limitToLast(5)
+      );
+    } else {
+      setQuery(
+        db
+          .collection("Property")
+          .doc(currentProperty.id)
+          .collection("Guest")
+          .orderBy("last_booking_date")
+          .limitToLast(5)
+      );
+    }
   };
 
   const handleNext = () => {
     console.log("Next");
-    setQuery(
-      db
-        .collection("Property")
-        .doc(currentProperty.id)
-        .collection("Guest")
-        .orderBy("last_booking_date")
-        .startAfter(lastVisibleDoc)
-        .limit(5)
-    );
+    if (lastVisibleDoc) {
+      setQuery(
+        db
+          .collection("Property")
+          .doc(currentProperty.id)
+          .collection("Guest")
+          .orderBy("last_booking_date")
+          .startAfter(lastVisibleDoc)
+          .limit(5)
+      );
+    } else {
+      setQuery(
+        db
+          .collection("Property")
+          .doc(currentProperty.id)
+          .collection("Guest")
+          .orderBy("last_booking_date")
+          .limitToLast(5)
+      );
+    }
   };
   const handleBlur = () => {
     console.log("Blur");

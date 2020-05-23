@@ -48,7 +48,7 @@ const IdUpload = ({
         const imageCompressor = new ImageCompressor();
         const compressorSettings = {
           // toWidth : 720 ,
-          toHeight: 720,
+          toHeight: 480,
           mimeType: "image/jpeg",
           mode: "strict",
           quality: 0.6,
