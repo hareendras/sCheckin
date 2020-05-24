@@ -41,7 +41,7 @@ const Property = ({ currentProperty, setCurrentProperty, setMainError, setMainSu
           phone: propertyPhone.value,
           admin_user: currentProperty.admin_user
         }, { merge: true });
-
+        
         setCurrentProperty({
           id: currPropertyRef.id,
           name: propertyName.value,

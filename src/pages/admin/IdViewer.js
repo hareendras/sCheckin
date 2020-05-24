@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Header, Icon, Modal, Image } from "semantic-ui-react";
+import React from "react";
+import { Header, Modal, Image } from "semantic-ui-react";
 
 const IdViewer = ({ showIdViewer, setShowIdViewer, imgData }) => {
   const closeMe = () => {
@@ -11,7 +11,6 @@ const IdViewer = ({ showIdViewer, setShowIdViewer, imgData }) => {
       <Header icon="id card" content="ID Image" />
       <Modal.Content image>
         <Image wrapped size="medium" src={imgData} />
-      
       </Modal.Content>
     </Modal>
   );

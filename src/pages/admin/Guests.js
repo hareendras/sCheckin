@@ -17,6 +17,7 @@ import {
 import { db } from "./../../firebase";
 import IdViewer from "./IdViewer";
 import Guest from "./Guest";
+import GuestEditor from "./GuestEditor";
 
 const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
   const [query, setQuery] = useState(
@@ -32,6 +33,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
   const [guestsList, setGuestsList] = useState([]);
   const [guestCountReturnedByQuery, setguestCountReturnedByQuery] = useState(0);
   const [showIdViewer, setShowIdViewer] = useState(false);
+  const [showGuestEditor, setShowGuestEditor] = useState(false);
   const [imgData, setImgData] = useState();
 
   useEffect(() => {
@@ -179,6 +181,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
                     setImgData={setImgData}
                     currentProperty={currentProperty}
                     setMainInfo={setMainInfo}
+                    setShowGuestEditor={setShowGuestEditor}
                   />
                 ))
               : "No records found!"}
@@ -204,6 +207,11 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
         <IdViewer
           showIdViewer={showIdViewer}
           setShowIdViewer={setShowIdViewer}
+          imgData={imgData}
+        />
+        <GuestEditor
+          showGuestEditor={showGuestEditor}
+          setShowGuestEditor={setShowGuestEditor}
           imgData={imgData}
         />
       </div>
