@@ -7,11 +7,22 @@ import {
   Button,
   Container,
 } from "semantic-ui-react";
+import useFormInput from "./useFormInput";
 
-const GuestEditor = ({ showGuestEditor, setShowGuestEditor, imgData }) => {
+const GuestEditor = ({
+  showGuestEditor,
+  setShowGuestEditor,
+  imgData,
+  selectedGuest
+}) => {
+
+  
   const closeMe = () => {
     setShowGuestEditor(false);
   };
+
+  const validateGuestName = () => "";
+  const guestName = useFormInput(selectedGuest.name, validateGuestName);
 
   return (
     <Modal open={showGuestEditor} closeIcon onClose={closeMe} size="large">
@@ -24,8 +35,11 @@ const GuestEditor = ({ showGuestEditor, setShowGuestEditor, imgData }) => {
             <Form>
               <Form.Field>
                 <label>Guest Name</label>
-
-                <input placeholder="Guest Name" />
+                <input placeholder="Guest Name" {...guestName} />
+              </Form.Field>
+              <Form.Field>
+                <label>NIC / Passport No</label>
+                <input placeholder="NIC / Passport" />
               </Form.Field>
               <Form.Field>
                 <label>NIC / Passport</label>
