@@ -35,6 +35,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
   const [showIdViewer, setShowIdViewer] = useState(false);
   const [showGuestEditor, setShowGuestEditor] = useState(false);
   const [imgData, setImgData] = useState();
+  const [selectedGuest, setSelectedGuest] = useState({name:"tester"});
 
   useEffect(() => {
     const f = async () => {
@@ -182,6 +183,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
                     currentProperty={currentProperty}
                     setMainInfo={setMainInfo}
                     setShowGuestEditor={setShowGuestEditor}
+                    setSelectedGuest={setSelectedGuest}
                   />
                 ))
               : "No records found!"}
@@ -213,6 +215,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           showGuestEditor={showGuestEditor}
           setShowGuestEditor={setShowGuestEditor}
           imgData={imgData}
+          selectedGuest={selectedGuest}
         />
       </div>
       <div className="rightPusher"></div>

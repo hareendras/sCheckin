@@ -9,9 +9,11 @@ const Guest = ({
   setShowIdViewer,
   setMainInfo,
   setShowGuestEditor,
+  setSelectedGuest,
 }) => {
   const bringUpIDView = async (guestid) => {
     try {
+      setImgData(null);
       let imgRef = storage.ref(`${currentProperty.id}/${guestid}.jpg`);
       let imgData = await imgRef.getDownloadURL();
       console.log("IMAGE DATA ", imgData);
@@ -22,13 +24,15 @@ const Guest = ({
     }
   };
 
-  const bringUpEditView = async (guestid) => {
+  const bringUpEditView = async (guest) => {
     try {
-      let imgRef = storage.ref(`${currentProperty.id}/${guestid}.jpg`);
+      setImgData(null);
+      let imgRef = storage.ref(`${currentProperty.id}/${guest.id}.jpg`);
       let imgData = await imgRef.getDownloadURL();
       console.log("IMAGE DATA ", imgData);
-      setShowGuestEditor(true);
       setImgData(imgData);
+      setSelectedGuest(guest);
+      setShowGuestEditor(true);
     } catch (error) {
       setMainInfo("No id image available for that guest");
     }
@@ -40,7 +44,7 @@ const Guest = ({
         <List.Description>
           <List.Content floated="right">
             <Icon link name="eye" onClick={() => bringUpIDView(guest.id)} />
-            <Icon link name="edit" onClick={() => bringUpEditView(guest.id)} />
+            <Icon link name="edit" onClick={() => bringUpEditView(guest)} />
             <Icon link name="user delete" />
           </List.Content>
         </List.Description>
