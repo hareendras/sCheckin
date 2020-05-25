@@ -35,7 +35,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
   const [showIdViewer, setShowIdViewer] = useState(false);
   const [showGuestEditor, setShowGuestEditor] = useState(false);
   const [imgData, setImgData] = useState();
-  const [selectedGuest, setSelectedGuest] = useState({name:"tester"});
+  const [selectedGuest, setSelectedGuest] = useState({});
 
   useEffect(() => {
     const f = async () => {

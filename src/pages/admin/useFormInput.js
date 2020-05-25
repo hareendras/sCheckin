@@ -13,4 +13,5 @@ const useFormInput = (initialValue, validate) => {
     error,
   };
 };
+
 export default useFormInput;

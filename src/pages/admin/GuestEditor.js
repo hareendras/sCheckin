@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Header,
   Modal,
@@ -7,35 +7,39 @@ import {
   Button,
   Container,
 } from "semantic-ui-react";
-import useFormInput from "./useFormInput";
+import  useFormInput  from "./useFormInput";
 
 const GuestEditor = ({
   showGuestEditor,
   setShowGuestEditor,
   imgData,
-  selectedGuest
+  selectedGuest,
 }) => {
-
-  
   const closeMe = () => {
     setShowGuestEditor(false);
   };
 
   const validateGuestName = () => "";
-  const guestName = useFormInput(selectedGuest.name, validateGuestName);
+
+  const guestName = useFormInput("",validateGuestName);
 
   return (
     <Modal open={showGuestEditor} closeIcon onClose={closeMe} size="large">
       <Header icon="id card" content="ID Image" />
 
       <Modal.Content image>
-        <Image  src={imgData} />{" "}
+        <Image src={imgData} />{" "}
         <Modal.Description>
+          {guestName.value}
           <Container>
             <Form>
               <Form.Field>
                 <label>Guest Name</label>
-                <input placeholder="Guest Name" {...guestName} />
+                <input
+                  placeholder="Guest Name"
+                  defaultValue={selectedGuest.name}
+                  onChange={guestName.onChange}
+                />
               </Form.Field>
               <Form.Field>
                 <label>NIC / Passport No</label>

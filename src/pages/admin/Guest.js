@@ -30,9 +30,9 @@ const Guest = ({
       let imgRef = storage.ref(`${currentProperty.id}/${guest.id}.jpg`);
       let imgData = await imgRef.getDownloadURL();
       console.log("IMAGE DATA ", imgData);
-      setImgData(imgData);
-      setSelectedGuest(guest);
+      setImgData(imgData);   
       setShowGuestEditor(true);
+      setSelectedGuest(guest);
     } catch (error) {
       setMainInfo("No id image available for that guest");
     }
