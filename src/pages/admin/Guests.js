@@ -211,12 +211,14 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           setShowIdViewer={setShowIdViewer}
           imgData={imgData}
         />
-        <GuestEditor
-          showGuestEditor={showGuestEditor}
-          setShowGuestEditor={setShowGuestEditor}
-          imgData={imgData}
-          selectedGuest={selectedGuest}
-        />
+      
+          <GuestEditor
+            showGuestEditor={showGuestEditor}
+            setShowGuestEditor={setShowGuestEditor}
+            imgData={imgData}
+            selectedGuest={selectedGuest}
+          />
+        
       </div>
       <div className="rightPusher"></div>
     </div>

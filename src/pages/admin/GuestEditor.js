@@ -7,7 +7,7 @@ import {
   Button,
   Container,
 } from "semantic-ui-react";
-import  useFormInput  from "./useFormInput";
+import useFormInput from "./useFormInput";
 
 const GuestEditor = ({
   showGuestEditor,
@@ -19,47 +19,63 @@ const GuestEditor = ({
     setShowGuestEditor(false);
   };
 
+  useEffect(() => {
+    console.log("Editor comonent mounted");
+
+    // returned function will be called on component unmount
+    return () => {
+      console.log("Editor component unmounted");
+    };
+  }, []);
+
   const validateGuestName = () => "";
 
-  const guestName = useFormInput("",validateGuestName);
+  const guestName = useFormInput(selectedGuest.name, validateGuestName);
+  const guestNIC = useFormInput(selectedGuest.nic, validateGuestName);
+  const guestAddress = useFormInput(selectedGuest.address, validateGuestName);
+  const guestEmail = useFormInput(selectedGuest.email, validateGuestName);
+  const guestPhone = useFormInput(selectedGuest.phone, validateGuestName);
+
+  const handleOpen = () => {
+    console.log("Modal open");
+  };
 
   return (
-    <Modal open={showGuestEditor} closeIcon onClose={closeMe} size="large">
+    <Modal
+      open={showGuestEditor}
+      closeIcon
+      onClose={closeMe}
+      size="large"
+      onOpen={handleOpen}
+    >
       <Header icon="id card" content="ID Image" />
 
       <Modal.Content image>
         <Image src={imgData} />{" "}
         <Modal.Description>
-          {guestName.value}
+          {guestName.value} + {guestNIC.value}
           <Container>
             <Form>
+              {guestName.error}
               <Form.Field>
                 <label>Guest Name</label>
-                <input
-                  placeholder="Guest Name"
-                  defaultValue={selectedGuest.name}
-                  onChange={guestName.onChange}
-                />
+                <input placeholder="Guest Name" {...guestName} />
               </Form.Field>
               <Form.Field>
                 <label>NIC / Passport No</label>
-                <input placeholder="NIC / Passport" />
-              </Form.Field>
-              <Form.Field>
-                <label>NIC / Passport</label>
-                <input placeholder="NIC / PAssport" />
+                <input placeholder="NIC / Passport" {...guestNIC} />
               </Form.Field>
               <Form.Field>
                 <label>Adress</label>
-                <input placeholder="Adress" />
+                <input placeholder="Adress" {...guestAddress} />
               </Form.Field>
               <Form.Field>
                 <label>E-mail</label>
-                <input placeholder="E-mail" />
+                <input placeholder="E-mail" {...guestEmail} />
               </Form.Field>
               <Form.Field>
                 <label>Phone</label>
-                <input placeholder="Phone" />
+                <input placeholder="Phone" {...guestPhone} />
               </Form.Field>
               <div className="propertyNameBtnSubmit">
                 <Button type="submit">Save</Button>{" "}
