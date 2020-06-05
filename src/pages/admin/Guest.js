@@ -43,9 +43,9 @@ const Guest = ({
         <List.Header as="a">{guest.name}</List.Header>
         <List.Description>
           <List.Content floated="right">
-            <Icon link name="eye" onClick={() => bringUpIDView(guest.id)} />
-            <Icon link name="edit" onClick={() => bringUpEditView(guest)} />
-            <Icon link name="user delete" />
+            <Icon link name="eye" onClick={() => bringUpIDView(guest.id)}  />View
+            <Icon link name="edit" onClick={() => bringUpEditView(guest)} /> Edit
+            <Icon link name="user delete" /> Delete
           </List.Content>
         </List.Description>
       </List.Content>

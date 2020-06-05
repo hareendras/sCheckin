@@ -6,27 +6,22 @@ import {
   Form,
   Button,
   Container,
+  Message,
 } from "semantic-ui-react";
 import useFormInput from "./useFormInput";
+import { db } from "./../../firebase";
 
 const GuestEditor = ({
   showGuestEditor,
   setShowGuestEditor,
   imgData,
   selectedGuest,
+  currentProperty,
+  setQuery,
 }) => {
   const closeMe = () => {
     setShowGuestEditor(false);
   };
-
-  useEffect(() => {
-    console.log("Editor comonent mounted");
-
-    // returned function will be called on component unmount
-    return () => {
-      console.log("Editor component unmounted");
-    };
-  }, []);
 
   const validateGuestName = () => "";
 
@@ -35,25 +30,50 @@ const GuestEditor = ({
   const guestAddress = useFormInput(selectedGuest.address, validateGuestName);
   const guestEmail = useFormInput(selectedGuest.email, validateGuestName);
   const guestPhone = useFormInput(selectedGuest.phone, validateGuestName);
+  const [successMessage, setSuccessMessage] = useState();
+  const [errorMessage, seterrorMessage] = useState("");
 
-  const handleOpen = () => {
-    console.log("Modal open");
+  const handleGuestEditPageSubmit = async () => {
+    const guestRef = db
+      .collection("Property")
+      .doc(currentProperty.id)
+      .collection("Guest")
+      .doc(selectedGuest.id);
+    try {
+      await guestRef.set(
+        {
+          name: guestName.value,
+          nic: guestNIC.value,
+          address: guestAddress.value,
+          email: guestEmail.value,
+          phone: guestPhone.value,
+        },
+        { merge: true }
+      );
+
+      setSuccessMessage("Guest details updated");
+      // setting query here because we need a re-render once the guest detail is updated
+      setQuery(
+        db
+          .collection("Property")
+          .doc(currentProperty.id)
+          .collection("Guest")
+          .orderBy("last_booking_date")
+          .limit(5)
+      );
+    } catch (error) {
+      console.log("Guest upate fail " + error);
+    }
   };
 
   return (
-    <Modal
-      open={showGuestEditor}
-      closeIcon
-      onClose={closeMe}
-      size="large"
-      onOpen={handleOpen}
-    >
+    <Modal open={showGuestEditor} closeIcon onClose={closeMe} size="large">
       <Header icon="id card" content="ID Image" />
 
       <Modal.Content image>
         <Image src={imgData} />{" "}
         <Modal.Description>
-          {guestName.value} + {guestNIC.value}
+          {successMessage && <Message success>{successMessage}</Message>}
           <Container>
             <Form>
               {guestName.error}
@@ -78,7 +98,9 @@ const GuestEditor = ({
                 <input placeholder="Phone" {...guestPhone} />
               </Form.Field>
               <div className="propertyNameBtnSubmit">
-                <Button type="submit">Save</Button>{" "}
+                <Button onClick={handleGuestEditPageSubmit} type="submit">
+                  Save
+                </Button>{" "}
               </div>
             </Form>
           </Container>

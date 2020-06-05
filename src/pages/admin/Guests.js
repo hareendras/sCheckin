@@ -50,7 +50,15 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
         setguestCountReturnedByQuery(docSnapshots.docs.length);
 
         docSnapshots.forEach((doc) => {
-          guestsList1.push({ id: doc.id, name: doc.data().name });
+          let data = doc.data();
+          guestsList1.push({
+            id: doc.id,
+            name: data.name,
+            nic: data.nic,
+            address: data.address,
+            email: data.email,
+            phone: data.phone,
+          });
         });
         setGuestsList(guestsList1);
         //   } else {
@@ -84,7 +92,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .collection("Property")
           .doc(currentProperty.id)
           .collection("Guest")
-          .where("keywords", "array-contains", text)
+          .where("keywords", "array-contains", text.toLowerCase())
           .orderBy("last_booking_date")
           .limit(5)
       );
@@ -149,7 +157,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           compact
           info
           header="This is Guests page"
-          content="Here you can view Guests data. Guests who has most recent bookings will be listed here. Start typing in search box for searching by name, NIC or passport number."
+          content="Here you can view Guests data. Guests who has most recent bookings will be listed here. Start typing in search box for searching by name."
         ></Message>
       </div>
 
@@ -211,14 +219,17 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           setShowIdViewer={setShowIdViewer}
           imgData={imgData}
         />
-      
+
+        {showGuestEditor && (
           <GuestEditor
             showGuestEditor={showGuestEditor}
             setShowGuestEditor={setShowGuestEditor}
             imgData={imgData}
             selectedGuest={selectedGuest}
+            currentProperty={currentProperty}            
+            setQuery={setQuery}
           />
-        
+        )}
       </div>
       <div className="rightPusher"></div>
     </div>

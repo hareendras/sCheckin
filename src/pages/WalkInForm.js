@@ -48,7 +48,12 @@ const WalkInForm = ({
         .collection("Property")
         .doc(propertyID)
         .collection("Guest")
-        .add({ name: name, last_booking_date: todayWithoutTime });
+        .add({
+          name: name,
+          last_booking_date: todayWithoutTime,
+          keywords: createKeyWords(name),
+        });
+
       console.log("Guest created " + guest.id);
 
       booking = await db
@@ -75,6 +80,17 @@ const WalkInForm = ({
 
   const handleBack = () => {
     closeWorkingForm();
+  };
+
+  const createKeyWords = (name) => {
+    let keyWordsArray = [];
+    let curName = "";
+    let i = 1;
+    let lower = name.toLowerCase();
+    for (i = 1; i <= name.length; i++) {
+      keyWordsArray.push(lower.slice(0, i));
+    }
+    return keyWordsArray;
   };
 
   return (
