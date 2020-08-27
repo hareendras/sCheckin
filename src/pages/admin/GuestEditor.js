@@ -42,11 +42,11 @@ const GuestEditor = ({
     try {
       await guestRef.set(
         {
-          name: guestName.value,
-          nic: guestNIC.value,
-          address: guestAddress.value,
-          email: guestEmail.value,
-          phone: guestPhone.value,
+          name: guestName.value||'',
+          nic: guestNIC.value||'',
+          address: guestAddress.value||'',
+          email: guestEmail.value||'',
+          phone: guestPhone.value||'',
         },
         { merge: true }
       );
