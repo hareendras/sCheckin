@@ -69,7 +69,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
       }
     };
     f();
-  }, [query]);
+  }, [query, showGuestEditor]);
 
   const setSearchQueryDelayed = debounce((text) => {
     console.log(
@@ -214,11 +214,11 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
             </Button.Group>
           </div>
         </Segment>
-        <IdViewer
+        {/*<IdViewer
           showIdViewer={showIdViewer}
           setShowIdViewer={setShowIdViewer}
           imgData={imgData}
-        />
+        />*/}
 
         {showGuestEditor && (
           <GuestEditor
@@ -226,8 +226,9 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
             setShowGuestEditor={setShowGuestEditor}
             imgData={imgData}
             selectedGuest={selectedGuest}
-            currentProperty={currentProperty}            
+            currentProperty={currentProperty}
             setQuery={setQuery}
+            setMainInfo={setMainInfo}
           />
         )}
       </div>
