@@ -75,11 +75,12 @@ const App = () => {
 
   // idUpload -- Guest
   const onclickBack = () => {
-    setCurrentPage("home");
+    setCurrentPage("home");    
   };
 
   const onclickContinue = () => {
-    setCurrentPage("confirmation");
+    //setCurrentPage("confirmation");
+    setCurrentPage("done");
   };
 
   /////////

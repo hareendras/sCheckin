@@ -12,30 +12,30 @@ const WalkInForm = ({
   propertyID,
 }) => {
   const [errorName, setErrName] = useState("");
-  const [errorNights, setErrNights] = useState("");
+  const [errorPhone, setErrPhone] = useState("");
   const [name, setName] = useState("");
-  const [nights, setNights] = useState("");
+  const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleNameChange = (e) => {
     console.log(e.target.value);
     setName(e.target.value);
   };
-  const handleNightsChange = (e) => {
+  const handlePhoneChange = (e) => {
     console.log(e.target.value);
-    setNights(e.target.value);
+    setPhone(e.target.value);
   };
 
   const handleContinue = async () => {
     // TODO Create Guest and booking here
     setErrName("");
-    setErrNights("");
+    setErrPhone("");
     if (name == "") {
       setErrName("Can't be blank");
       return;
     }
-    if (nights == "") {
-      setErrNights("Can't be blank");
+    if (phone == "") {
+      setErrPhone("Can't be blank");
       return;
     }
     let guest = "";
@@ -50,20 +50,20 @@ const WalkInForm = ({
         .collection("Guest")
         .add({
           name: name,
+          phone: phone,
           last_booking_date: todayWithoutTime,
           keywords: createKeyWords(name),
         });
-
       console.log("Guest created " + guest.id);
 
       booking = await db
         .collection("Property")
         .doc(propertyID)
-        .collection("Guest")
-        .doc(guest.id)
-        .collection("Bookings")
+        .collection("Bookings")        
         .add({
-          nights: nights,
+          guestId: guest.id,
+          name:name,
+          phone: phone,
           checkin_date: todayWithoutTime,
           //need to handle price properly
           price_USD: 10,
@@ -103,10 +103,10 @@ const WalkInForm = ({
             <label>Your Name</label>
             <input onChange={handleNameChange} placeholder="Your Name" />
           </Form.Field>
-          {errorNights && <span style={{ color: "red" }}>{errorNights}</span>}
+          {errorPhone && <span style={{ color: "red" }}>{errorPhone}</span>}
           <Form.Field>
-            <label>No of nights</label>
-            <input onChange={handleNightsChange} placeholder="Nights" />
+            <label>Mobile No</label>
+            <input onChange={handlePhoneChange} placeholder="Mobile No" />
           </Form.Field>
           <div className="btnFlexContainer">
             <Button
