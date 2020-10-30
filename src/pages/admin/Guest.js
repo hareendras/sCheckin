@@ -21,6 +21,8 @@ const Guest = ({
       setImgData(imgData);
     } catch (error) {
       setMainInfo("No id image available for that guest");
+      setSelectedGuest(guest);
+      setShowGuestEditor(true);
     }
   };
 
@@ -35,18 +37,18 @@ const Guest = ({
       setShowGuestEditor(true);
     } catch (error) {
       setMainInfo("No id image available for that guest");
+      setSelectedGuest(guest);
+      setShowGuestEditor(true);
     }
   };
   return (
     <List.Item>
       <List.Content>
-        <List.Header as="a">{guest.name}</List.Header>
         <List.Description>
+          {guest.name}
           <List.Content floated="right">
-            {/*  <Icon link name="eye" onClick={() => bringUpIDView(guest.id)}  />View */}
-            <Icon link name="edit" onClick={() => bringUpEditView(guest)} />{" "}
+            <Icon link name="edit" onClick={() => bringUpEditView(guest)} />
             Edit
-            {/*<Icon link name="user delete" /> Delete */}
           </List.Content>
         </List.Description>
       </List.Content>

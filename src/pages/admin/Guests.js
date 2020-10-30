@@ -20,13 +20,14 @@ import Guest from "./Guest";
 import GuestEditor from "./GuestEditor";
 
 const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
+  const [RECORD_LIMIT, setRECORD_LIMIT] = useState(10);
   const [query, setQuery] = useState(
     db
       .collection("Property")
       .doc(currentProperty.id)
       .collection("Guest")
       .orderBy("last_booking_date")
-      .limit(5)
+      .limit(RECORD_LIMIT)
   );
   const [firstVisibleDoc, setFirstVisibleDoc] = useState({});
   const [lastVisibleDoc, setLastVisibleDoc] = useState({});
@@ -84,7 +85,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .doc(currentProperty.id)
           .collection("Guest")
           .orderBy("last_booking_date")
-          .limit(5)
+          .limit(RECORD_LIMIT)
       );
     } else {
       setQuery(
@@ -94,7 +95,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .collection("Guest")
           .where("keywords", "array-contains", text.toLowerCase())
           .orderBy("last_booking_date")
-          .limit(5)
+          .limit(RECORD_LIMIT)
       );
     }
   }, 500);
@@ -109,7 +110,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .collection("Guest")
           .orderBy("last_booking_date")
           .endBefore(firstVisibleDoc)
-          .limitToLast(5)
+          .limitToLast(RECORD_LIMIT)
       );
     } else {
       setQuery(
@@ -118,7 +119,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .doc(currentProperty.id)
           .collection("Guest")
           .orderBy("last_booking_date")
-          .limitToLast(5)
+          .limitToLast(RECORD_LIMIT)
       );
     }
   };
@@ -133,7 +134,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .collection("Guest")
           .orderBy("last_booking_date")
           .startAfter(lastVisibleDoc)
-          .limit(5)
+          .limit(RECORD_LIMIT)
       );
     } else {
       setQuery(
@@ -142,7 +143,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .doc(currentProperty.id)
           .collection("Guest")
           .orderBy("last_booking_date")
-          .limitToLast(5)
+          .limitToLast(RECORD_LIMIT)
       );
     }
   };
