@@ -3,7 +3,7 @@ import { Container, Message } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import TopNav from "./TopNav";
 import PropertyContainer from "./PropertyContainer";
-import BookingsContainer from "./BookingsContainer";
+import Bookings from "./Bookings";
 import Guests from "./Guests";
 import "./css/styles.css";
 import UploadBookingsContainer from "./UploadBookingContainer";
@@ -21,7 +21,7 @@ const Admin = ({
   setMainError,
   setMainSuccess,
   mainInfo,
-  setMainInfo
+  setMainInfo,
 }) => {
   const renderActivePage = () => {
     console.log("Sdsds" + activePage);
@@ -36,7 +36,7 @@ const Admin = ({
           />
         );
       case "Bookings":
-        return <BookingsContainer />;
+        return <Bookings currentProperty={currentProperty} />;
       case "Guests":
         return (
           <Guests

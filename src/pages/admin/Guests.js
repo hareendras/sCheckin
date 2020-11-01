@@ -26,7 +26,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
       .collection("Property")
       .doc(currentProperty.id)
       .collection("Guest")
-      .orderBy("last_booking_date")
+      .orderBy("last_booking_date","desc")
       .limit(RECORD_LIMIT)
   );
   const [firstVisibleDoc, setFirstVisibleDoc] = useState({});
@@ -84,7 +84,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .collection("Property")
           .doc(currentProperty.id)
           .collection("Guest")
-          .orderBy("last_booking_date")
+          .orderBy("last_booking_date","desc")
           .limit(RECORD_LIMIT)
       );
     } else {
@@ -94,7 +94,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .doc(currentProperty.id)
           .collection("Guest")
           .where("keywords", "array-contains", text.toLowerCase())
-          .orderBy("last_booking_date")
+          .orderBy("last_booking_date","desc")
           .limit(RECORD_LIMIT)
       );
     }
@@ -108,7 +108,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .collection("Property")
           .doc(currentProperty.id)
           .collection("Guest")
-          .orderBy("last_booking_date")
+          .orderBy("last_booking_date","desc")
           .endBefore(firstVisibleDoc)
           .limitToLast(RECORD_LIMIT)
       );
@@ -118,7 +118,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .collection("Property")
           .doc(currentProperty.id)
           .collection("Guest")
-          .orderBy("last_booking_date")
+          .orderBy("last_booking_date","desc")
           .limitToLast(RECORD_LIMIT)
       );
     }
@@ -132,7 +132,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .collection("Property")
           .doc(currentProperty.id)
           .collection("Guest")
-          .orderBy("last_booking_date")
+          .orderBy("last_booking_date","desc")
           .startAfter(lastVisibleDoc)
           .limit(RECORD_LIMIT)
       );
@@ -142,7 +142,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
           .collection("Property")
           .doc(currentProperty.id)
           .collection("Guest")
-          .orderBy("last_booking_date")
+          .orderBy("last_booking_date","desc")
           .limitToLast(RECORD_LIMIT)
       );
     }
