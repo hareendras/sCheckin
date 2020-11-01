@@ -30,67 +30,6 @@ const App = () => {
   const [admin, setAdmin] = useState();
   const [userID, setUserID] = useState();
 
-  //LoginForm -- Guest
-  const HandleChange = (value) => {
-    setCode(value);
-  };
-  const HandleSubmit = () => {
-    if (code === "") {
-      setError("Can't be blank!!");
-      return;
-    }
-    console.log("fetchedCode " + fetchedCode + " code " + code);
-    if (fetchedCode == code) {
-      setCurrentPage("home");
-    } else {
-      setError("Wrong code. Try again");
-    }
-  }; ////////////
-
-  //UserListForm -- Guest
-  const userOnClick = async (guestID, name) => {
-    setGuestID(guestID);
-    setGuestName(name);
-    console.log("Index userOnClick " + guestID, guestName);
-    try {
-      let fetchedUserId = await db
-        .collection("Property")
-        .doc(propertyID)
-        .collection("Guest")
-        .doc(guestID)
-        .get();
-      console.log("fetched userid " + fetchedUserId.data().userID);
-      console.log("User id  " + userID);
-      // If the current user is already a guest, skip id upload page
-      if (userID == fetchedUserId.data().userID) {
-        setCurrentPage("confirmation");
-      } else {
-        setCurrentPage("IdUpload");
-      }
-    } catch (error) {
-      console.error("index.js line 91" + error);
-      setError("Woops error occured!!! Please scan the QR code and try again");
-    }
-  }; ///////////
-
-  // idUpload -- Guest
-  const onclickBack = () => {
-    setCurrentPage("home");    
-  };
-
-  const onclickContinue = () => {
-    //setCurrentPage("confirmation");
-    setCurrentPage("done");
-  };
-
-  /////////
-
-  // confirmation page
-  const done = () => {
-    setCurrentPage("done");
-  };
-  //////
-
   useEffect(() => {
     console.log("effect");
     let sp = new URLSearchParams(window.location.search);
@@ -138,6 +77,67 @@ const App = () => {
       f();
     }
   }, [admin]);
+
+  //LoginForm -- Guest
+  const HandleChange = (value) => {
+    setCode(value);
+  };
+  const HandleSubmit = () => {
+    if (code === "") {
+      setError("Can't be blank!!");
+      return;
+    }
+    console.log("fetchedCode " + fetchedCode + " code " + code);
+    if (fetchedCode == code) {
+      setCurrentPage("home");
+    } else {
+      setError("Wrong code. Try again");
+    }
+  }; ////////////
+
+  //UserListForm -- Guest
+  const userOnClick = async (guestID, name) => {
+    setGuestID(guestID);
+    setGuestName(name);
+    console.log("Index userOnClick " + guestID, guestName);
+    try {
+      let fetchedUserId = await db
+        .collection("Property")
+        .doc(propertyID)
+        .collection("Guest")
+        .doc(guestID)
+        .get();
+      console.log("fetched userid " + fetchedUserId.data().userID);
+      console.log("User id  " + userID);
+      // If the current user is already a guest, skip id upload page
+      if (userID == fetchedUserId.data().userID) {
+        setCurrentPage("confirmation");
+      } else {
+        setCurrentPage("IdUpload");
+      }
+    } catch (error) {
+      console.error("index.js line 91" + error);
+      setError("Woops error occured!!! Please scan the QR code and try again");
+    }
+  }; ///////////
+
+  // idUpload -- Guest
+  const onclickBack = () => {
+    setCurrentPage("home");
+  };
+
+  const onclickContinue = () => {
+    //setCurrentPage("confirmation");
+    setCurrentPage("done");
+  };
+
+  /////////
+
+  // confirmation page
+  const done = () => {
+    setCurrentPage("done");
+  };
+  //////
 
   const renderUI = () => {
     console.log("render Ui" + currentPage);
