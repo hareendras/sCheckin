@@ -70,6 +70,9 @@ const Property = ({ currentProperty, setCurrentProperty, setMainError, setMainSu
           header="This is property page"
           content="This is where you enter your property details. You can enter the code which you plan to display in your property entarance. You can change this code time to time"
         ></Message>
+        <Segment>
+          QR
+        </Segment>
       </div>
       <div className="propertyForm">
         <Header content="Property Details" />
