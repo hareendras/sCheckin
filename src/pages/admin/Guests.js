@@ -20,6 +20,7 @@ import Guest from "./Guest";
 import GuestEditor from "./GuestEditor";
 
 const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
+  console.log("property id >>"+currentProperty.id);
   const [RECORD_LIMIT, setRECORD_LIMIT] = useState(10);
   const [query, setQuery] = useState(
     db
@@ -41,8 +42,9 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
   useEffect(() => {
     const f = async () => {
       try {
+        
         let docSnapshots = await query.get();
-        console.log("is empty" + docSnapshots.empty);
+     
 
         //    if (!docSnapshots.empty) {
         let guestsList1 = [];
@@ -66,6 +68,7 @@ const Guests = ({ setMainError, currentProperty, setMainInfo }) => {
         //   setguestCountReturnedByQuery(0);
         //}
       } catch (error) {
+        console.log("Error "+error);
         setguestCountReturnedByQuery(docSnapshots.docs.length);
       }
     };
